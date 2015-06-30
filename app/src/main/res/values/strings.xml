@@ -3,4 +3,20 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_register">RegisterActivity</string>
+
+    <!-- Register Activity-->
+    <string name="full_name">Nombre Completo</string>
+    <string name="cellphone_num">Celular</string>
+    <string name="town">Localidad</string>
+    <string name="user_type">Tipo de Usuario</string>
+    <string name="producer">Productor</string>
+    <string name="industrial">Industrial</string>
+    <string name="other">Otro</string>
+    <string name="transactions">Ha realizado transacciones en Bolsa?</string>
+    <string name="transBag">Realiza sus transacciones en Bagsa?</string>
+    <string name="notes">Nota: La información es para uso exclusivo de BAGSA,
+        para dar asistencia en el uso de la aplicación.</string>
+
+
 </resources>
