@@ -18,6 +18,7 @@
     <string name="notes">Nota: La información es para uso exclusivo de BAGSA,
         para dar asistencia en el uso de la aplicación.</string>
     <string name="alreadyUser">Ya tienes una cuenta! Sign in</string>
+    <string name="passConf">Repetir Contraseña</string>
 
     <!--Login-->
     <string name="txtUser">Usuario</string>
