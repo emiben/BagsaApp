@@ -23,6 +23,8 @@
     <!--Login-->
     <string name="txtUser">Usuario</string>
     <string name="txtPassword">Contraseña</string>
+    <string name="txtBtnGuest">Invitado</string>
+    <string name="txtBtnLogin">Inicio</string>
 
 
 </resources>
