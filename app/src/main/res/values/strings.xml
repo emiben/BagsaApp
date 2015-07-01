@@ -13,7 +13,7 @@
     <string name="producer">Productor</string>
     <string name="industrial">Industrial</string>
     <string name="other">Otro</string>
-    <string name="transactions">Ha realizado transacciones en Bolsa?</string>
+    <string name="transactionsBolsa">Ha realizado transacciones en Bolsa?</string>
     <string name="transBag">Realiza sus transacciones en Bagsa?</string>
     <string name="notes">Nota: La información es para uso exclusivo de BAGSA,
         para dar asistencia en el uso de la aplicación.</string>
@@ -25,6 +25,23 @@
     <string name="txtPassword">Contraseña</string>
     <string name="txtBtnGuest">Invitado</string>
     <string name="txtBtnLogin">Inicio</string>
+    <string name="title_activity_principal">PrincipalActivity</string>
+
+    <!-- Principal Activity-->
+    <string name="notifications">Notificaciones</string>
+    <string name="price_cons">Consulta de Precios</string>
+    <string name="newsletters">Boletines</string>
+    <string name="reports">Reportes</string>
+    <string name="questions">Consultas eBagsa</string>
+    <string name="transactions">Transacciones</string>
+    <string name="title_activity_reports">ReportsActivity</string>
+
+    <!-- Reportes y Boletines Activity-->
+    <string name="reportsNNews">Reportes y Boletines</string>
+    <string name="type">Tipo</string>
+    <string name="year">Año</string>
+    <string name="month">Mes</string>
+    <string name="generate">Generar</string>
 
 
 </resources>
