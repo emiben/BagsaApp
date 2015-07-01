@@ -6,7 +6,8 @@
     android:fillViewport="true">
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:background="#E8F5E9">
+        android:layout_height="wrap_content"
+        android:background="#E8F5E9">
 
         <!--  Header  Starts-->
         <LinearLayout android:id="@+id/header"
@@ -44,7 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
                 android:singleLine="true"
-                android:layout_marginBottom="20dip"/>
+                android:layout_marginBottom="20dip"
+                android:windowSoftInputMode="stateHidden"/>
             <!--  CellPhone Label -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -128,7 +130,7 @@
                     <TextView android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textColor="#372c24"
-                        android:text="@string/transactions"
+                        android:text="@string/transactionsBolsa"
                         android:layout_column="1"/>
 
                     <CheckBox

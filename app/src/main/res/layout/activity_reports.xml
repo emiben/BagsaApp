@@ -63,20 +63,20 @@
             android:layout_row="0"
             android:layout_column="0" />
 
-        <CheckBox
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/reports"
-            android:id="@+id/radioButton"
+            android:id="@+id/checkboxReports"
             android:layout_marginLeft="5dip"
             android:layout_row="0"
             android:layout_column="2" />
 
-        <CheckBox
+        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/newsletters"
-            android:id="@+id/radioButton2"
+            android:id="@+id/checkboxNewsLet"
             android:layout_marginLeft="5dip"
             android:layout_row="0"
             android:layout_column="3" />

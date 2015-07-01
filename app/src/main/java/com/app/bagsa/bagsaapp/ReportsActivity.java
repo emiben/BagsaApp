@@ -4,7 +4,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -13,12 +16,19 @@ import java.util.Calendar;
 
 public class ReportsActivity extends ActionBarActivity {
 
+    private Spinner spinYear;
+    private Spinner spinMonth;
+    private RadioButton chkReports;
+    private RadioButton chkNewsLet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
 
-        loadData();
+        getViewElements();
+        setElementsEvents();
+        loadSpinners();
     }
 
     @Override
@@ -43,15 +53,50 @@ public class ReportsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadData(){
+    private void getViewElements() {
+        spinYear = (Spinner)findViewById(R.id.spinnerYear);
+        spinMonth = (Spinner)findViewById(R.id.spinnerMonth);
+        chkReports = (RadioButton) findViewById(R.id.checkboxReports);
+        chkNewsLet = (RadioButton) findViewById(R.id.checkboxNewsLet);
+    }
+
+    private void setElementsEvents() {
+        chkReports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chckRepAction(v);
+            }
+        });
+        chkNewsLet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chckNwsLetAction(v);
+            }
+        });
+
+    }
+
+    public void chckRepAction(View v){
+        RadioButton radioBtn = (RadioButton)v;
+        if(radioBtn.isChecked()){
+            chkNewsLet.setChecked(false);
+        }
+    }
+
+    public void chckNwsLetAction(View v){
+        RadioButton radioBtn = (RadioButton)v;
+        if(radioBtn.isChecked()){
+            chkReports.setChecked(false);
+        }
+    }
+
+    public void loadSpinners(){
         ArrayList<String> years = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = thisYear; i >= 1950 ; i--) {
             years.add(Integer.toString(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
-
-        Spinner spinYear = (Spinner)findViewById(R.id.spinnerYear);
         spinYear.setAdapter(adapter);
 
         String[] Months = new String[] { "Enero", "Febrero",
@@ -59,8 +104,8 @@ public class ReportsActivity extends ActionBarActivity {
                 "Octubre", "Noviembre", "Diciembre" };
 
         ArrayAdapter<String> adapterMonth = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Months);
-        Spinner spinMonth = (Spinner)findViewById(R.id.spinnerMonth);
         spinMonth.setAdapter(adapterMonth);
-
     }
+
+
 }
