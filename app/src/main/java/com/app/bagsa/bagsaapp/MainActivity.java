@@ -48,6 +48,12 @@ public class MainActivity extends ActionBarActivity {
                 startRegisterActivity();
             }
         });
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPrincipalActivity();
+            }
+        });
     }
 
     /**Iniciar activity para realizar resgitro
@@ -55,6 +61,11 @@ public class MainActivity extends ActionBarActivity {
      */
     private void startRegisterActivity() {
         Intent i = new Intent(this, RegisterActivity.class);
+        startActivity(i);
+    }
+
+    private void startPrincipalActivity() {
+        Intent i = new Intent(this, PrincipalActivity.class);
         startActivity(i);
     }
 

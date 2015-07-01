@@ -71,9 +71,9 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:hint="@string/txtPassword"
-                android:drawableLeft="@drawable/login_psw_icon"
                 android:drawablePadding="10dp"
                 android:id="@+id/eTxtPassword" />
+            <!--android:drawableLeft="@drawable/login_psw_icon"-->
 
         </LinearLayout>
 

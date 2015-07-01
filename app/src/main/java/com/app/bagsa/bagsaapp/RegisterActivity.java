@@ -1,26 +1,32 @@
 package com.app.bagsa.bagsaapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 
 public class RegisterActivity extends ActionBarActivity {
 
-    Spinner userTypes;
+    private Spinner userTypes;
+    private TextView linkLogIn;
+    private Button BtnRegis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-
+        getViewElements();
+        setElementsEvents();
         loadUserType();
     }
 
@@ -46,8 +52,34 @@ public class RegisterActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadUserType(){
+    private void getViewElements() {
         userTypes = (Spinner) findViewById(R.id.spinnerUT);
+        BtnRegis = (Button) findViewById(R.id.btnRegister);
+        linkLogIn = (TextView) findViewById(R.id.link_to_login);
+    }
+
+    private void setElementsEvents() {
+        BtnRegis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMainActivity();
+            }
+        });
+        linkLogIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMainActivity();
+            }
+        });
+    }
+
+    private void startMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
+    public void loadUserType(){
+
         ArrayList<String> userTyp = new ArrayList<String>();
 
         userTyp.add(getResources().getString(R.string.producer));
