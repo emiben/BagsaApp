@@ -27,11 +27,21 @@
         <activity
             android:name=".ReportsActivity"
             android:label="@string/title_activity_reports" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        </activity>
+        <activity
+            android:name=".qrysEBagsaActivity"
+            android:label="@string/title_activity_qrys_ebagsa" >
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".QryPricesActivity"
+            android:label="@string/title_activity_qry_prices" >
         </activity>
     </application>
 

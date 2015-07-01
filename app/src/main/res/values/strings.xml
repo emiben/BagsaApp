@@ -42,6 +42,21 @@
     <string name="year">Año</string>
     <string name="month">Mes</string>
     <string name="generate">Generar</string>
+    <string name="title_activity_qrys_ebagsa">qrysEBagsaActivity</string>
+
+    <!-- QrysEbagsa Activity-->
+    <string name="chose_qry">Elija el tipo de consulta</string>
+    <string name="contract">Contratos</string>
+    <string name="auctionsAndBids">Status de Subastas y Pujas</string>
+    <string name="buyAndSell">Compra/Venta</string>
+    <string name="title_activity_qry_prices">QryPricesActivity</string>
+
+    <!-- QryPrices Prices-->
+    <string name="market">Mercado</string>
+    <string name="product">Producto</string>
+    <string name="bolsa">Bolsa</string>
+    <string name="query">Consultar</string>
+
 
 
 </resources>

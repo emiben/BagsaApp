@@ -72,10 +72,32 @@ public class PrincipalActivity extends ActionBarActivity {
                 startReportsActivity();
             }
         });
+        consEBag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startQrysEBagsaActivity();
+            }
+        });
+        consPrices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startQrysPricesActivity();
+            }
+        });
     }
 
     private void startReportsActivity() {
         Intent i = new Intent(this, ReportsActivity.class);
+        startActivity(i);
+    }
+
+    private void startQrysEBagsaActivity() {
+        Intent i = new Intent(this, qrysEBagsaActivity.class);
+        startActivity(i);
+    }
+
+    private void startQrysPricesActivity() {
+        Intent i = new Intent(this, QryPricesActivity.class);
         startActivity(i);
     }
 }
