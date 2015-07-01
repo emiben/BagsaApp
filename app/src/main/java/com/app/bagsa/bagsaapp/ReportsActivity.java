@@ -54,9 +54,9 @@ public class ReportsActivity extends ActionBarActivity {
         Spinner spinYear = (Spinner)findViewById(R.id.spinnerYear);
         spinYear.setAdapter(adapter);
 
-        String[] Months = new String[] { "January", "February",
-                "March", "April", "May", "June", "July", "August", "September",
-                "October", "November", "December" };
+        String[] Months = new String[] { "Enero", "Febrero",
+                "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+                "Octubre", "Noviembre", "Diciembre" };
 
         ArrayAdapter<String> adapterMonth = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Months);
         Spinner spinMonth = (Spinner)findViewById(R.id.spinnerMonth);
