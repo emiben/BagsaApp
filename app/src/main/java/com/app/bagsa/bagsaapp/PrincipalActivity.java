@@ -14,7 +14,6 @@ public class PrincipalActivity extends ActionBarActivity {
     private Button notif;
     private Button consPrices;
     private Button reports;
-    private Button newslet;
     private Button consEBag;
     private Button transact;
 
@@ -54,19 +53,12 @@ public class PrincipalActivity extends ActionBarActivity {
         notif = (Button) findViewById(R.id.button);
         consPrices = (Button) findViewById(R.id.button2);
         reports = (Button) findViewById(R.id.button3);
-        newslet = (Button) findViewById(R.id.button4);
         consEBag = (Button) findViewById(R.id.button5);
         transact = (Button) findViewById(R.id.button6);
     }
 
     private void setElementsEvents() {
         reports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startReportsActivity();
-            }
-        });
-        newslet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startReportsActivity();
