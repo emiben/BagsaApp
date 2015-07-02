@@ -7,7 +7,7 @@
     android:background="#E8F5E9"
     tools:context="com.app.bagsa.bagsaapp.PrincipalActivity">
 
-    <!-- Logo borrar emiliano este comentario dejar solo Logo-->
+    <!-- Logo borrar emiliano este comentario dejar solo Logo otramas-->
     <ImageView
 
         android:layout_width="wrap_content"
