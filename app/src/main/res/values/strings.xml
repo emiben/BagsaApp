@@ -43,6 +43,7 @@
     <string name="month">Mes</string>
     <string name="generate">Generar</string>
     <string name="title_activity_qrys_ebagsa">qrysEBagsaActivity</string>
+    <string name="filters">Filtros</string>
 
     <!-- QrysEbagsa Activity-->
     <string name="chose_qry">Elija el tipo de consulta</string>
