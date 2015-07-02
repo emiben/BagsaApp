@@ -51,7 +51,13 @@ public class MainActivity extends ActionBarActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPrincipalActivity();
+                startPrincipalActivity(0);
+            }
+        });
+        btnGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPrincipalActivity(1);
             }
         });
     }
@@ -64,9 +70,23 @@ public class MainActivity extends ActionBarActivity {
         startActivity(i);
     }
 
-    private void startPrincipalActivity() {
+    /**
+     * Inicia ventana principal, depende del tipo de login si se envia usuario o no
+     * 0 no envia usuario indica LOGIN INVITADO 1 envia usuario.
+     * @param type
+     */
+    private void startPrincipalActivity(int type) {
         Intent i = new Intent(this, PrincipalActivity.class);
-        startActivity(i);
+        if(0==type){
+            startActivity(i);
+        }else{
+            Bundle b = new Bundle();
+            b.putString("User", "ADMIN");
+            b.putInt("UserID",1);
+            i.putExtras(b);
+            startActivity(i);
+        }
+
     }
 
     @Override
