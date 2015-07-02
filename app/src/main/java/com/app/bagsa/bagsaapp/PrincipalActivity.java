@@ -17,12 +17,20 @@ public class PrincipalActivity extends ActionBarActivity {
     private Button consEBag;
     private Button transact;
 
-
+    //sbouissa 02-07-2015
+    private int userID = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
+        // get the Intent that started this Activity
+        Intent in = getIntent();
+        // get the Bundle that stores the data of this Activity
+        Bundle b = in.getExtras();
+        if(null!=b){
+           userID = b.getInt("UserID");
+        }
         getViewElements();
         setElementsEvents();
     }
@@ -55,6 +63,10 @@ public class PrincipalActivity extends ActionBarActivity {
         reports = (Button) findViewById(R.id.button3);
         consEBag = (Button) findViewById(R.id.button5);
         transact = (Button) findViewById(R.id.button6);
+        if(userID>0){
+            transact.setVisibility(View.GONE);
+            consEBag.setVisibility(View.GONE);
+        }
     }
 
     private void setElementsEvents() {
