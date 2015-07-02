@@ -1,0 +1,102 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#E8F5E9"
+    android:fillViewport="true">
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/dynamic" />-->
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/celda_cuerpo3">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/product"
+                    android:textColor="#fffff9f3"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="10dip"
+                    android:id="@+id/textView8" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffff9f3"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/uom"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="10dip"
+                    android:id="@+id/textView9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffff9f3"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/quality"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="10dip"
+                    android:id="@+id/textView10" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffff9f3"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/volume"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="10dip"
+                    android:id="@+id/textView11" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffff9f3"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/minPrice"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="10dip"
+                    android:id="@+id/textView12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffff9f3"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/avgPrice"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="10dip"
+                    android:id="@+id/textView13" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffff9f3"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/maxPrice"
+                    android:layout_marginLeft="10dip"
+                    android:layout_marginTop="10dip"
+                    android:id="@+id/textView14" />
+
+            </TableRow>
+        </TableLayout>
+    </HorizontalScrollView>
+</ScrollView>

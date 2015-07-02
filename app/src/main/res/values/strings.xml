@@ -57,7 +57,14 @@
     <string name="product">Producto</string>
     <string name="bolsa">Bolsa</string>
     <string name="query">Consultar</string>
+    <string name="title_activity_boletin">BoletinActivity</string>
 
-
+    <!-- Boletin Activity-->
+    <string name="uom">Unidad de Medida</string>
+    <string name="quality">Calidad</string>
+    <string name="volume">Volumen</string>
+    <string name="minPrice">Precio mínimo</string>
+    <string name="avgPrice">Precio promedio</string>
+    <string name="maxPrice">Precio máximo</string>
 
 </resources>
