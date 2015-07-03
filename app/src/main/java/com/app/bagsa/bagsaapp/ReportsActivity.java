@@ -1,11 +1,13 @@
 package com.app.bagsa.bagsaapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -20,6 +22,7 @@ public class ReportsActivity extends ActionBarActivity {
     private Spinner spinMonth;
     private RadioButton chkReports;
     private RadioButton chkNewsLet;
+    private Button generate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class ReportsActivity extends ActionBarActivity {
         spinMonth = (Spinner)findViewById(R.id.spinnerMonth);
         chkReports = (RadioButton) findViewById(R.id.checkboxReports);
         chkNewsLet = (RadioButton) findViewById(R.id.checkboxNewsLet);
+        generate = (Button) findViewById(R.id.button7);
     }
 
     private void setElementsEvents() {
@@ -73,7 +77,20 @@ public class ReportsActivity extends ActionBarActivity {
                 chckNwsLetAction(v);
             }
         });
+        generate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                generateReport();
+            }
+        });
 
+    }
+
+    public void generateReport(){
+        if(chkNewsLet.isChecked()) {
+            Intent i = new Intent(this, BoletinActivity.class);
+            startActivity(i);
+        }
     }
 
     public void chckRepAction(View v){

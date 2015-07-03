@@ -10,15 +10,16 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.app.bagsa.bagsaapp.R;
 
-public class BoletinActivity extends ActionBarActivity {
+public class PricesActivity extends ActionBarActivity {
 
     TableLayout table_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_boletin);
+        setContentView(R.layout.activity_prices);
 
         getViewElements();
         BuildTable();
@@ -27,7 +28,7 @@ public class BoletinActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_boletin, menu);
+        getMenuInflater().inflate(R.menu.menu_prices, menu);
         return true;
     }
 
@@ -47,11 +48,11 @@ public class BoletinActivity extends ActionBarActivity {
     }
 
     public void getViewElements(){
-        table_layout = (TableLayout) findViewById(R.id.tableLayout1);
+        table_layout = (TableLayout) findViewById(R.id.tableLayoutPrices);
     }
 
-    private void BuildTable() {
-        int rows = 20, cols = 7;
+    private void BuildTable(){
+        int rows = 20, cols = 5;
         // outer for loop
         for (int i = 1; i <= rows; i++) {
             TableRow row = new TableRow(this);

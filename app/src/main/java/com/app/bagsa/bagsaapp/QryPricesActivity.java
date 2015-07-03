@@ -1,10 +1,13 @@
 package com.app.bagsa.bagsaapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 
@@ -13,6 +16,7 @@ public class QryPricesActivity extends ActionBarActivity {
     private Spinner spinMarket;
     private Spinner spinProduct;
     private Spinner spinBolsa;
+    private Button queryPrices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,7 @@ public class QryPricesActivity extends ActionBarActivity {
 
         getViewElements();
         loadSpinners();
+        setElementsEvents();
     }
 
     @Override
@@ -49,6 +54,21 @@ public class QryPricesActivity extends ActionBarActivity {
         spinMarket = (Spinner)findViewById(R.id.spinnerMarket);
         spinProduct = (Spinner)findViewById(R.id.spinnerProd);
         spinBolsa = (Spinner)findViewById(R.id.spinnerBolsa);
+        queryPrices = (Button) findViewById(R.id.button8);
+    }
+
+    private void setElementsEvents() {
+        queryPrices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPricesActivity();
+            }
+        });
+    }
+
+    private void startPricesActivity() {
+        Intent i = new Intent(this, PricesActivity.class);
+        startActivity(i);
     }
 
     public void loadSpinners(){

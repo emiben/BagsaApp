@@ -15,7 +15,7 @@
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tableLayout1"
+            android:id="@+id/tableLayoutPrices"
             android:background="@drawable/celda_cuerpo2">
 
             <TableRow
@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#fffff9f3"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/uom"
+                    android:text="@string/bolsa"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
                     android:id="@+id/textView9" />
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#fffff9f3"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/quality"
+                    android:text="@string/market_price"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
                     android:id="@+id/textView10" />
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#fffff9f3"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/volume"
+                    android:text="@string/tendency"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
                     android:id="@+id/textView11" />
@@ -67,30 +67,11 @@
                     android:layout_height="wrap_content"
                     android:textColor="#fffff9f3"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/minPrice"
+                    android:text="@string/variation"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
                     android:id="@+id/textView12" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fffff9f3"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/avgPrice"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:id="@+id/textView13" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fffff9f3"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/maxPrice"
-                    android:layout_marginLeft="5dip"
-                    android:layout_marginRight="5dip"
-                    android:id="@+id/textView14" />
             </TableRow>
         </TableLayout>
     </HorizontalScrollView>
