@@ -115,7 +115,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/txtBtnGuest"
                                 android:id="@+id/btnGuest"
-                                android:background="#ff077e18"
+                                android:background="@drawable/button_customize"
+                                android:textColor="#FFFFFF"
                                 android:layout_marginRight="5dp" />
 
                             <Button
@@ -123,7 +124,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/txtBtnLogin"
                                 android:id="@+id/btnLogin"
-                                android:background="#ff077e18" />
+                                android:background="@drawable/button_customize"
+                                android:textColor="#FFFFFF" />
 
                         </LinearLayout>
 

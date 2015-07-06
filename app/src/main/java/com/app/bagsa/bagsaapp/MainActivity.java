@@ -66,6 +66,7 @@ public class MainActivity extends ActionBarActivity {
      * @Author sbouissa 30-06-2015 Issue#
      */
     private void startRegisterActivity() {
+        this.finish();
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
     }
@@ -78,12 +79,14 @@ public class MainActivity extends ActionBarActivity {
     private void startPrincipalActivity(int type) {
         Intent i = new Intent(this, PrincipalActivity.class);
         if(0==type){
+            this.finish();
             startActivity(i);
         }else{
             Bundle b = new Bundle();
             b.putString("User", "ADMIN");
             b.putInt("UserID",1);
             i.putExtras(b);
+            this.finish();
             startActivity(i);
         }
 

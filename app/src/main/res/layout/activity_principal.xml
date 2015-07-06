@@ -42,6 +42,8 @@
                         android:layout_height="match_parent"
                         android:text="@string/notifications"
                         android:id="@+id/button"
+                        android:background="@drawable/button_customize"
+                        android:textColor="#FFFFFF"
                         android:layout_marginTop="10dip"
                         android:layout_weight="1"
                         android:layout_column="0" />
@@ -51,7 +53,10 @@
                         android:layout_height="match_parent"
                         android:text="@string/price_cons"
                         android:id="@+id/button2"
+                        android:background="@drawable/button_customize"
+                        android:textColor="#FFFFFF"
                         android:layout_marginTop="10dip"
+                        android:layout_marginLeft="5dip"
                         android:layout_weight="1"
                         android:layout_column="1" />
                 </TableRow>
@@ -65,6 +70,8 @@
                         android:layout_height="match_parent"
                         android:text="@string/questions"
                         android:id="@+id/button5"
+                        android:background="@drawable/button_customize"
+                        android:textColor="#FFFFFF"
                         android:layout_marginTop="10dip"
                         android:layout_weight="1"
                         android:layout_column="0" />
@@ -74,7 +81,10 @@
                         android:layout_height="match_parent"
                         android:text="@string/transactions"
                         android:id="@+id/button6"
+                        android:background="@drawable/button_customize"
+                        android:textColor="#FFFFFF"
                         android:layout_marginTop="10dip"
+                        android:layout_marginLeft="5dip"
                         android:layout_weight="1"
                         android:layout_column="1" />
                 </TableRow>
@@ -84,6 +94,8 @@
                     android:layout_height="match_parent"
                     android:text="@string/reportsNNews"
                     android:id="@+id/button3"
+                    android:background="@drawable/button_customize"
+                    android:textColor="#FFFFFF"
                     android:layout_marginTop="10dip"
                     android:layout_weight="1"
                     android:layout_column="0" />

@@ -66,5 +66,19 @@
     <string name="minPrice">Precio mínimo</string>
     <string name="avgPrice">Precio promedio</string>
     <string name="maxPrice">Precio máximo</string>
+    <string name="title_activity_prices">PricesActivity</string>
+
+    <!-- Prices activity-->
+    <string name="market_price">Precio de Mercado</string>
+    <string name="tendency">La Tendencia</string>
+    <string name="variation">Variación en base al último cierre</string>
+    <string name="title_activity_tabla_reports">TablaReportsActivity</string>
+
+    <!-- Buttons-->
+    <string name="export">Exportar</string>
+    <string name="email">eMail</string>
+
+    <string name="chose_type">Elejir Tipo</string>
+
 
 </resources>

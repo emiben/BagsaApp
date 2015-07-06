@@ -44,6 +44,10 @@
             android:name=".PricesActivity"
             android:label="@string/title_activity_prices" >
         </activity>
+        <activity
+            android:name=".TablaReportsActivity"
+            android:label="@string/title_activity_tabla_reports" >
+        </activity>
     </application>
 
 </manifest>

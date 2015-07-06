@@ -77,6 +77,7 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     private void startMainActivity() {
+        this.finish();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }

@@ -1,5 +1,6 @@
 package com.app.bagsa.bagsaapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,9 +89,16 @@ public class ReportsActivity extends ActionBarActivity {
     }
 
     public void generateReport(){
-        if(chkNewsLet.isChecked()) {
+        if(chkNewsLet.isChecked() || chkReports.isChecked()) {
             Intent i = new Intent(this, BoletinActivity.class);
             startActivity(i);
+        }else{
+            Context context = getApplicationContext();
+            CharSequence text =  getResources().getString(R.string.chose_type);
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
     }
 
