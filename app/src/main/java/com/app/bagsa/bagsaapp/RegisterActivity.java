@@ -28,6 +28,7 @@ public class RegisterActivity extends ActionBarActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_register);
+        //setTitle(R.string.title_activity_boletin);
         getViewElements();
         setElementsEvents();
         loadUserType();
@@ -93,5 +94,11 @@ public class RegisterActivity extends ActionBarActivity {
         ArrayAdapter<String> arrayAdapter =
                 new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, userTyp);
         userTypes.setAdapter(arrayAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startMainActivity();
     }
 }

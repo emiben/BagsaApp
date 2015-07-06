@@ -91,6 +91,13 @@ public class ReportsActivity extends ActionBarActivity {
     public void generateReport(){
         if(chkNewsLet.isChecked() || chkReports.isChecked()) {
             Intent i = new Intent(this, BoletinActivity.class);
+            Bundle b = new Bundle();
+            if(chkReports.isChecked()){
+                b.putInt("Type",1);
+            }else{
+                b.putInt("Type",0);
+            }
+            i.putExtras(b);
             startActivity(i);
         }else{
             Context context = getApplicationContext();
