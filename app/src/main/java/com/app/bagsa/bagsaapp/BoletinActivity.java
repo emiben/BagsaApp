@@ -1,5 +1,6 @@
 package com.app.bagsa.bagsaapp;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,13 +14,25 @@ import android.widget.TextView;
 
 public class BoletinActivity extends ActionBarActivity {
 
+    private int userID=0;
     TableLayout table_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boletin);
-
+        // get the Intent that started this Activity
+        Intent in = getIntent();
+        // get the Bundle that stores the data of this Activity
+        Bundle b = in.getExtras();
+        if(null!=b){
+            userID = b.getInt("Type");//si es 1 -->Reporte 0-->Boletin
+            if(0<userID){
+                setTitle(R.string.title_activity_boletinR);
+            }else{
+                setTitle(R.string.title_activity_boletinB);
+            }
+        }
         getViewElements();
         BuildTable();
     }
