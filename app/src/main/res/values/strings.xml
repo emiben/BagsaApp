@@ -82,6 +82,13 @@
     <string name="email">eMail</string>
 
     <string name="chose_type">Elejir Tipo</string>
+    <string name="title_activity_notifications">NotificationsActivity</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="title_activity_custom_tab">customTabActivity</string>
+
+    <!-- Custom Tab Activity-->
+    <string name="description">Descripción</string>
+    <string name="date">Fecha</string>
 
 
 </resources>

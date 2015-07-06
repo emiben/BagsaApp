@@ -88,6 +88,17 @@ public class PrincipalActivity extends ActionBarActivity {
                 startQrysPricesActivity();
             }
         });
+        notif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNotificationsActivity();
+            }
+        });
+    }
+
+    private void startNotificationsActivity() {
+        Intent i = new Intent(this, NotificationsActivity.class);
+        startActivity(i);
     }
 
     private void startReportsActivity() {

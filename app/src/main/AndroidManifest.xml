@@ -48,6 +48,14 @@
             android:name=".TablaReportsActivity"
             android:label="@string/title_activity_tabla_reports" >
         </activity>
+        <activity
+            android:name=".NotificationsActivity"
+            android:label="@string/title_activity_notifications" >
+        </activity>
+        <activity
+            android:name=".Utils.CustomTabActivity"
+            android:label="@string/title_activity_custom_tab" >
+        </activity>
     </application>
 
 </manifest>
