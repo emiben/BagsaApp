@@ -1,5 +1,6 @@
 package com.app.bagsa.bagsaapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -32,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
      */
     private void getViewElements() {
         txtUser = (EditText) findViewById(R.id.eTxtUserName);
-        txtUser = (EditText) findViewById(R.id.eTxtPassword);
+        txtPsw = (EditText) findViewById(R.id.eTxtPassword);
         txtRegister = (TextView) findViewById(R.id.txtRegister);
         btnGuest = (Button) findViewById(R.id.btnGuest);
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -51,7 +53,18 @@ public class MainActivity extends ActionBarActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPrincipalActivity(0);
+                String u = txtUser.getText().toString();
+                String p = txtPsw.getText().toString();
+                if(u.equals("admin") && p.equals("admin")){
+                    startPrincipalActivity(0);
+                }else{
+                    Context context = getApplicationContext();
+                    CharSequence text =  getResources().getString(R.string.user_pws_error);
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                 }
             }
         });
         btnGuest.setOnClickListener(new View.OnClickListener() {

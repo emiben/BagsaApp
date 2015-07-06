@@ -27,6 +27,7 @@
     <string name="txtBtnGuest">Invitado</string>
     <string name="txtBtnLogin">Inicio</string>
     <string name="title_activity_principal">Inicio</string>
+    <string name="user_pws_error">Usuario no registrado</string>
 
     <!-- Principal Activity-->
     <string name="notifications">Notificaciones</string>

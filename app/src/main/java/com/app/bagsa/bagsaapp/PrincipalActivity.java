@@ -104,4 +104,15 @@ public class PrincipalActivity extends ActionBarActivity {
         Intent i = new Intent(this, QryPricesActivity.class);
         startActivity(i);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startMainActivity();
+    }
+    private void startMainActivity() {
+        this.finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
 }
