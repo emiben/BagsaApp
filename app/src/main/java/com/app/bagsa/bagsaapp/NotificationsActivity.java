@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.app.bagsa.bagsaapp.Utils.CustomTabActivity;
 
 
 public class NotificationsActivity extends FragmentActivity {
@@ -20,7 +18,6 @@ public class NotificationsActivity extends FragmentActivity {
         setContentView(R.layout.activity_notifications);
 
         getViewElements();
-        makeTabs();
     }
 
     @Override
@@ -47,16 +44,5 @@ public class NotificationsActivity extends FragmentActivity {
 
     public void getViewElements(){
         tabHost= (FragmentTabHost) findViewById(android.R.id.tabhost);
-    }
-
-    public void makeTabs(){
-        int n = 3;
-
-        for(int i = 0; i<n; i++) {
-            tabHost.setup(this,
-                    getSupportFragmentManager(), android.R.id.tabcontent);
-            tabHost.addTab(tabHost.newTabSpec("tab"+i).setIndicator("Notice "+(i+1)),
-                    CustomTabActivity.class, null);
-        }
     }
 }

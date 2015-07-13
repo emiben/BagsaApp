@@ -33,6 +33,7 @@ public class PrincipalActivity extends ActionBarActivity {
         }
         getViewElements();
         setElementsEvents();
+
     }
 
     @Override

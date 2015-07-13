@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
+
+import java.io.IOException;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -27,6 +32,9 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getViewElements();
         setElementsEvents();
+
+        registerGCM();
+
     }
 
     /**Inicializo los componentes del Activity
@@ -125,5 +133,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void registerGCM(){
+        Thread thread = new Thread() {
+            public void run() {
+                MyInstanceIDListenerService myListenerSer = new MyInstanceIDListenerService();
+                myListenerSer.onTokenRefresh();
+            }
+        };
+        thread.start();
     }
 }
