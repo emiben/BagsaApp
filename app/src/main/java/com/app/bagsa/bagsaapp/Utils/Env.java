@@ -3,17 +3,30 @@ package com.app.bagsa.bagsaapp.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**
  * Created by SBT on 30/06/2015.
  */
 public class Env {
+    /**
+     * Notificaciones
+     */
+    private static final String PROPERTY_REG_ID = "PID";
+    private static final String PROPERTY_USER = "PU";
+    private static final String PROPERTY_APP_VERSION = "PAV";
+    private static final String PROPERTY_EXPIRATION_TIME = "PET";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1 ;
+    private static final String SENDER_ID = "585544263746";
+    private static final long EXPIRATION_TIME_MS = 1;
+
     /**************************************************************************
      *  Application Context
      */
 
     private static final String	SET_ENV = "#SET_ENV#";
-
 
     private final String APP_BASE_FOLDER = "AppBagsa";
     private final String APP_DB_FOLDER = "DataBaseApp";
@@ -104,6 +117,9 @@ public class Env {
         // TODO Auto-generated method stub
         setContext(ctx, SET_ENV, value);
     }
+
+
+    //** metodos notifications
 
 
 }

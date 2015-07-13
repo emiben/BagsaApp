@@ -27,6 +27,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
 import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -45,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String PROPERTY_APP_VERSION = "PAV";
     private static final String PROPERTY_EXPIRATION_TIME = "PET";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1 ;
-    private static final String SENDER_ID = "123456789";
+    private static final String SENDER_ID = "585544263746";
     private static final long EXPIRATION_TIME_MS = 1;
     private String TAG  = "SBT";
     private Context context;
@@ -67,8 +68,7 @@ public class MainActivity extends ActionBarActivity {
 
         testDataBase();
 
-        registerGCM();
-       //registerGCM();
+       // registerGCM(); se hace al momento de cargar la base
 
     }
 
@@ -122,30 +122,9 @@ public class MainActivity extends ActionBarActivity {
      * @Author sbouissa 30-06-2015 Issue#
      */
     private void startRegisterActivity() {
-        context = getApplicationContext();
-
-        //Chequemos si está instalado Google Play Services
-        if(checkPlayServices())
-        {
-        gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
-
-        //Obtenemos el Registration ID guardado
-        regid = getRegistrationId(context);
-
-        //Si no disponemos de Registration ID comenzamos el registro
-        if (regid.equals("")) {
-            TareaRegistroGCM tarea = new TareaRegistroGCM();
-            tarea.execute(txtUser.getText().toString());
-        }
-        }
-        else
-        {
-            Log.i(TAG, "No se ha encontrado Google Play Services.");
-        }
-
-       //this.finish();
-       // Intent i = new Intent(this, RegisterActivity.class);
-       // startActivity(i);
+       this.finish();
+        Intent i = new Intent(this, RegisterActivity.class);
+        startActivity(i);
     }
 
     /**
@@ -192,13 +171,26 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void registerGCM(){
-       // Thread thread = new Thread() {
-         //   public void run() {
-                MyInstanceIDListenerService myListenerSer = new MyInstanceIDListenerService();
-                myListenerSer.onTokenRefresh();
-           // }
-       // };
-       // thread.start();
+        context = getApplicationContext();
+
+        //Chequemos si está instalado Google Play Services
+        if(checkPlayServices())
+        {
+            gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
+
+            //Obtenemos el Registration ID guardado
+            regid = getRegistrationId(context);
+
+            //Si no disponemos de Registration ID comenzamos el registro
+            if (regid.equals("")) {
+                TareaRegistroGCM tarea = new TareaRegistroGCM();
+                tarea.execute(txtUser.getText().toString());
+            }
+        }
+        else
+        {
+            Log.i(TAG, "No se ha encontrado Google Play Services.");
+        }
     }
 
 
@@ -277,8 +269,14 @@ public class MainActivity extends ActionBarActivity {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this,
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             }
-        };
-        thread.start();
+            else
+            {
+                Log.i(TAG, "Dispositivo no soportado.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     private void testDataBase() {
@@ -292,6 +290,126 @@ public class MainActivity extends ActionBarActivity {
         } else {
             InitialLoad initData = new InitialLoad(this);
             initData.initialLoad_copyDB();
+            registerGCM();
         }
     }
+
+
+
+//FIN CLASE SYNC
+    private class TareaRegistroGCM extends AsyncTask<String,Integer,String>
+    {
+        @Override
+        protected String doInBackground(String... params)
+        {
+            String msg = "";
+
+            try
+            {
+                if (gcm == null)
+                {
+                    gcm = GoogleCloudMessaging.getInstance(context);
+                }
+
+                //Nos registramos en los servidores de GCM
+                regid = gcm.register(SENDER_ID);
+
+                Log.d(TAG, "Registrado en GCM: registration_id=" + regid);
+
+                //Nos registramos en nuestro servidor
+                boolean registrado = registroServidor(params[0], regid);
+
+                //Guardamos los datos del registro
+                if(registrado)
+                {
+                    setRegistrationId(context, params[0], regid);
+                }
+            }
+            catch (IOException ex)
+            {
+                Log.d(TAG, "Error registro en GCM:" + ex.getMessage());
+            }
+
+            return msg;
+        }
+
+        private boolean registroServidor(String usuario, String regId)
+        {
+            boolean reg = false;
+
+            final String NAMESPACE = "http://3e.pl/ADInterface";
+            final String URL="http://192.168.13.103:8273/ADInterface-1.0/services/ADService";
+            final String METHOD_NAME = "login";
+            final String SOAP_ACTION = "http://3e.pl/ADInterface/ADServicePortType/loginRequest";
+
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+            SoapObject adLoginRequest = new SoapObject(NAMESPACE,"ADLoginRequest");
+           // request.setProperty(0,"sbouissa");
+           // request.setProperty(1,"sbouissa");
+            PropertyInfo usrPI= new PropertyInfo();
+            usrPI.setName("user");
+            usrPI.setValue("sbouissa");
+            usrPI.setNamespace(NAMESPACE);
+            usrPI.setType(String.class);
+            adLoginRequest.addProperty(usrPI);
+
+            PropertyInfo pswPI= new PropertyInfo();
+            pswPI.setName("pass");
+            pswPI.setValue("sbouissa");
+            pswPI.setNamespace(NAMESPACE);
+            pswPI.setType(String.class);
+            adLoginRequest.addProperty(pswPI);
+
+            //request.addProperty("user", "sbouissa");
+            //request.addProperty("pass", "sbouissa");
+            request.addSoapObject(adLoginRequest);
+            SoapSerializationEnvelope envelope =
+                    new SoapSerializationEnvelope(SoapEnvelope.VER11);
+
+            envelope.dotNet = false;
+
+            envelope.setOutputSoapObject(request);
+
+            HttpTransportSE transporte = new HttpTransportSE(URL);
+
+            try
+            {
+                transporte.call(SOAP_ACTION, envelope);
+                SoapObject resultado_xml =(SoapObject)envelope.getResponse();
+                String status = resultado_xml.getProperty("status").toString();
+
+                //SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
+                String res = resultado_xml.toString();
+
+                if(status.equals("1000006"))
+                {
+                    Log.d(TAG, "Registrado en mi servidor.");
+                    reg = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.d(TAG, "Error registro en mi servidor: " + e.getCause() + " || " + e.getMessage());
+            }
+
+            return reg;
+        }
+        private void setRegistrationId(Context context, String user, String regId)
+        {
+            SharedPreferences prefs = getSharedPreferences(
+                    MainActivity.class.getSimpleName(),
+                    Context.MODE_PRIVATE);
+
+            int appVersion = getAppVersion(context);
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(PROPERTY_USER, user);
+            editor.putString(PROPERTY_REG_ID, regId);
+            editor.putInt(PROPERTY_APP_VERSION, appVersion);
+            editor.putLong(PROPERTY_EXPIRATION_TIME,
+                    System.currentTimeMillis() + EXPIRATION_TIME_MS);
+
+            editor.commit();
+        }
+    }//FIN CLASE SYNC
 }

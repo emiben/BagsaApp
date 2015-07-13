@@ -78,7 +78,18 @@
                 <category android:name="com.app.bagsa.bagsaapp" />
             </intent-filter>
         </receiver>
-        <service
+        <receiver
+            android:name=".GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="net.sgoliver.android.newgcm" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMIntentService" />
+
+       <!-- <service
             android:name="com.app.bagsa.bagsaapp.MyGcmListenerService"
             android:exported="false" >
             <intent-filter>
@@ -91,7 +102,7 @@
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID"/>
             </intent-filter>
-        </service>
+        </service> -->
 
     </application>
 
