@@ -2,6 +2,7 @@ package com.app.bagsa.bagsaapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.app.bagsa.bagsaapp.Utils.BagsaDB;
+import com.app.bagsa.bagsaapp.Utils.Env;
+import com.app.bagsa.bagsaapp.Utils.InitialLoad;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
@@ -32,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getViewElements();
         setElementsEvents();
+
+        testDataBase();
 
         registerGCM();
 
@@ -143,5 +149,19 @@ public class MainActivity extends ActionBarActivity {
             }
         };
         thread.start();
+    }
+
+    private void testDataBase() {
+        // Validate SD
+        if(Env.isEnvLoad(this)){
+            if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+                if(!Env.getDB_PathName(this).equals(BagsaDB.DB_NAME)){
+                    finish();
+                }
+            }
+        } else {
+            InitialLoad initData = new InitialLoad(this);
+            initData.initialLoad_copyDB();
+        }
     }
 }
