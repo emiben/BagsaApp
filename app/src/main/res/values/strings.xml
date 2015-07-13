@@ -36,10 +36,10 @@
     <string name="reports">Reportes</string>
     <string name="questions">Consultas eBagsa</string>
     <string name="transactions">Transacciones</string>
-    <string name="title_activity_reports">Reportes y Boletines</string>
+    <string name="title_activity_reports">Boletines</string>
 
     <!-- Reportes y Boletines Activity-->
-    <string name="reportsNNews">Reportes y Boletines</string>
+    <string name="reportsNNews">Boletines</string>
     <string name="type">Tipo</string>
     <string name="year">Año</string>
     <string name="month">Mes</string>
@@ -89,6 +89,8 @@
     <!-- Custom Tab Activity-->
     <string name="description">Descripción</string>
     <string name="date">Fecha</string>
+    <string name="logoBagsa">logoBagsa</string>
+    <string name="logoImgVBagsa">imgViewLogoBagsa</string>
 
 
 </resources>
