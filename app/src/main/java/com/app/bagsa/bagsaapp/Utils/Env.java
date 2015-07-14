@@ -22,6 +22,9 @@ public class Env {
     private static final String SENDER_ID = "585544263746";
     private static final long EXPIRATION_TIME_MS = 1;
 
+    public static final String NAMESPACE = "http://3e.pl/ADInterface";
+    public static final String URL="http://200.71.26.66:6050/ADInterface-1.0/services/ADService";
+
     /**************************************************************************
      *  Application Context
      */

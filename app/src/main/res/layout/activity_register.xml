@@ -85,7 +85,8 @@
                 android:password="false"
                 android:singleLine="true"
                 android:layout_marginTop="5dip"
-                android:layout_marginBottom="20dip"/>
+                android:layout_marginBottom="20dip"
+                android:inputType="textEmailAddress" />
             <!-- User Type Label-->
             <!-- Username Label -->
             <TextView android:layout_width="fill_parent"
@@ -113,7 +114,8 @@
                 android:password="true"
                 android:singleLine="true"
                 android:layout_marginTop="5dip"
-                android:layout_marginBottom="20dip"/>
+                android:layout_marginBottom="20dip"
+                android:inputType="textPassword" />
 
             <!-- Confirm Password Label -->
             <TextView android:layout_width="fill_parent"
@@ -126,7 +128,8 @@
                 android:password="true"
                 android:singleLine="true"
                 android:layout_marginTop="5dip"
-                android:layout_marginBottom="20dip"/>
+                android:layout_marginBottom="20dip"
+                android:inputType="textPassword" />
 
             <!-- User Type Label-->
             <TableLayout

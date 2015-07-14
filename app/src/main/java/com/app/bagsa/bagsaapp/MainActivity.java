@@ -1,5 +1,6 @@
 package com.app.bagsa.bagsaapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
@@ -40,6 +41,13 @@ import java.util.Locale;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    //Variables login
+    private String userIn="";
+    private String pswIn="";
+    private Boolean retornoWS=false;
+    private ProgressDialog pDialog;
+
 
     private static final String PROPERTY_REG_ID = "PID";
     private static final String PROPERTY_USER = "PU";
@@ -96,9 +104,10 @@ public class MainActivity extends ActionBarActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String u = txtUser.getText().toString();
-                String p = txtPsw.getText().toString();
-                if(u.equals("admin") && p.equals("admin")){
+                userIn = txtUser.getText().toString();
+                pswIn = txtPsw.getText().toString();
+                //if(u.equals("admin") && p.equals("admin")){
+                if(loginWS(userIn,pswIn)){
                     startPrincipalActivity(0);
                 }else{
                     Context context = getApplicationContext();
@@ -116,6 +125,23 @@ public class MainActivity extends ActionBarActivity {
                 startPrincipalActivity(1);
             }
         });
+    }
+
+    private boolean loginWS(String u, String p) {
+
+        pDialog = ProgressDialog.show(this,null, "Consultando..",true);
+        new Thread(){
+            public void run(){
+                try{
+                    retornoWS = loginWebServer(userIn,pswIn);
+                }catch (Exception e){
+                    e.getMessage();
+                }
+                pDialog.dismiss();
+            }
+        }.start();
+
+        return retornoWS;
     }
 
     /**Iniciar activity para realizar resgitro
@@ -412,4 +438,60 @@ public class MainActivity extends ActionBarActivity {
             editor.commit();
         }
     }//FIN CLASE SYNC
+
+
+    //metodo para consultar WebService para realizar login
+    private boolean loginWebServer(String userIn, String pswIn)
+    {
+        boolean reg = false;
+
+        final String NAMESPACE = Env.NAMESPACE;
+        final String URL=Env.URL;
+        final String METHOD_NAME = "login";
+        final String SOAP_ACTION = "http://3e.pl/ADInterface/ADServicePortType/loginRequest";
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        SoapObject adLoginRequest = new SoapObject(NAMESPACE,"ADLoginRequest");
+        PropertyInfo usrPI= new PropertyInfo();
+        usrPI.setName("user");
+        usrPI.setValue(userIn);
+        usrPI.setNamespace(NAMESPACE);
+        usrPI.setType(String.class);
+        adLoginRequest.addProperty(usrPI);
+
+        PropertyInfo pswPI= new PropertyInfo();
+        pswPI.setName("pass");
+        pswPI.setValue(pswIn);
+        pswPI.setNamespace(NAMESPACE);
+        pswPI.setType(String.class);
+        adLoginRequest.addProperty(pswPI);
+
+        request.addSoapObject(adLoginRequest);
+        SoapSerializationEnvelope envelope =
+                new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = false;
+
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try
+        {
+            transporte.call(SOAP_ACTION, envelope);
+            SoapObject resultado_xml =(SoapObject)envelope.getResponse();
+            String status = resultado_xml.getProperty("status").toString();
+
+            //SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
+            String res = resultado_xml.toString();
+
+            if(status.equals("1000006"))
+            {
+                Log.d(TAG, "Registrado en mi servidor.");
+                reg = true;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "Error registro en mi servidor: " + e.getCause() + " || " + e.getMessage());
+        }
+        return reg;
+    }
 }

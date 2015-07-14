@@ -14,6 +14,7 @@
     <string name="producer">Productor</string>
     <string name="industrial">Industrial</string>
     <string name="other">Otro</string>
+    <string name="exportador">Exportador</string>
     <string name="transactionsBolsa">Ha realizado transacciones en Bolsa?</string>
     <string name="transBag">Realiza sus transacciones en Bagsa?</string>
     <string name="notes">Nota: La información es para uso exclusivo de BAGSA,
