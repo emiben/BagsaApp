@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import com.app.bagsa.bagsaapp.Utils.DBHelper;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -66,18 +67,27 @@ public class GCMIntentService extends IntentService{
         mNotificationManager.notify(NOTIF_ALERTA_ID, mBuilder.build());
     }
 
+    private String getDateString() {
+        String[] fecha = new Timestamp(System.currentTimeMillis()).toString().split("-");
+        //Formato fecha YYYYMMdd
+        String fechaArch = fecha[0]+"-"+fecha[1]+"-"+fecha[2].substring(0, 2);
+        return fechaArch;
+    }
+
     public void insertNotifMsg(String msg) {
         DBHelper db = null;
         try {
             db = new DBHelper(getApplicationContext());
             db.openDB(1);
-            String fec = Integer.toString(Calendar.DAY_OF_MONTH) + "/" + Integer.toString(Calendar.MONTH) + "/" + Integer.toString(Calendar.YEAR);
-            List<String> items = Arrays.asList(msg.split("|"));
+            //String fec = Calendar.getInstance(). Integer.toString(Calendar.DAY_OF_MONTH) + "/" + Integer.toString(Calendar.MONTH) + "/" + Integer.toString(Calendar.YEAR);
+            String fec = getDateString();
+            List<String> items = Arrays.asList(msg.split("#"));
+            String[] r = msg.split("#");
             ContentValues row = new ContentValues();
-            row.put("tipo", items.get(0));
+            row.put("tipo", r[0]);
             row.put("fecha", fec);
-            row.put("descripcion", items.get(1));
-            row.put("informacion", items.get(2));
+            row.put("descripcion",r[1]);
+            row.put("informacion", r[2]);
 
             db.insertSQL("Notificaciones", null, row);
 

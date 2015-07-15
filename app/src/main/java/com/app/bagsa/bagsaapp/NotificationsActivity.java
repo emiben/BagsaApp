@@ -84,14 +84,34 @@ public class NotificationsActivity extends FragmentActivity {
                     tv.setPadding(5, 5, 5, 5);
                     tv.setGravity(Gravity.CENTER);
 
+                    TextView tv2 = new TextView(this);
+                    tv2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
+                    if (i % 2 == 0)
+                        tv2.setBackgroundResource(R.drawable.celda_cuerpo1);
+                    else
+                        tv2.setBackgroundResource(R.drawable.celda_cuerpo3);
+                    tv2.setPadding(5, 5, 5, 5);
+                    tv2.setGravity(Gravity.CENTER);
+
+                    TextView tv3 = new TextView(this);
+                    tv3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
+                    if (i % 2 == 0)
+                        tv3.setBackgroundResource(R.drawable.celda_cuerpo1);
+                    else
+                        tv3.setBackgroundResource(R.drawable.celda_cuerpo3);
+                    tv3.setPadding(5, 5, 5, 5);
+                    tv3.setGravity(Gravity.CENTER);
+
 //                tv.setTextColor(Integer.parseInt("#FF000000"));
                     tv.setTypeface(null, Typeface.BOLD);
-                    tv.setText(rs.getColumnIndex("descripcion"));
+                    tv.setText(rs.getString(rs.getColumnIndex("descripcion")));
                     row.addView(tv);
-                    tv.setText(rs.getColumnIndex("tipo"));
-                    row.addView(tv);
-                    tv.setText(rs.getColumnIndex("fecha"));
-                    row.addView(tv);
+                    tv2.setText(rs.getString(rs.getColumnIndex("tipo")));
+                    row.addView(tv2);
+                    tv3.setText(rs.getString(rs.getColumnIndex("fecha")));
+                    row.addView(tv3);
                     i++;
                     table_layout.addView(row);
                 }
