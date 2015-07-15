@@ -129,11 +129,11 @@ public class RegisterActivity extends ActionBarActivity {
                     String mje = verficarDataIn();
                     if(mje.equals("OK")){
                         if(sendDataWS()){
-                            startMainActivity();
+                          //  startMainActivity();
                         }
                     }else{
-                        Toast toast = Toast.makeText(getBaseContext(), mje, Toast.LENGTH_SHORT);
-                        toast.show();
+                        //Toast toast = Toast.makeText(getBaseContext(), mje, Toast.LENGTH_SHORT);
+                        //toast.show();
                     }
                 }else {
                     CharSequence text =  getResources().getString(R.string.noInternet);
@@ -427,7 +427,7 @@ public class RegisterActivity extends ActionBarActivity {
             ColumYVal[i++] = in_Localidad; //val
 
             ColumYVal[i++] = "DateTrx"; //colum
-            ColumYVal[i++] = "2015-07-14 00:00:00"; //val
+            ColumYVal[i++] = "2015-07-15 00:00:00"; //val
 
             ColumYVal[i++] = "Phone"; //colum
             ColumYVal[i++] = in_Phone;

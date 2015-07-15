@@ -1,5 +1,6 @@
 package com.app.bagsa.bagsaapp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +46,7 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity {
 
     //Variables login
+    private Activity mCtx = null;
     private String userIn="";
     private String pswIn="";
     private Boolean retornoWS=false;
@@ -79,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mCtx = this;
         getViewElements();
         setElementsEvents();
 
@@ -117,14 +120,9 @@ public class MainActivity extends ActionBarActivity {
                 //if(u.equals("admin") && p.equals("admin")){
                 if(isOnline()){
                     if(loginWS(userIn,pswIn)){
-                        startPrincipalActivity(0);
+                        //startPrincipalActivity(0);
                     }else{
-                        Context context = getApplicationContext();
-                        CharSequence text =  getResources().getString(R.string.user_pws_error);
-                        int duration = Toast.LENGTH_SHORT;
 
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
                     }
                 }else{
 
@@ -153,6 +151,21 @@ public class MainActivity extends ActionBarActivity {
                     e.getMessage();
                 }
                 pDialog.dismiss();
+                (mCtx).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (retornoWS) {
+                            startPrincipalActivity(0);
+                        } else {
+                            Context context = getApplicationContext();
+                            CharSequence text =  getResources().getString(R.string.user_pws_error);
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
+                        }
+                    }
+                });
             }
         }.start();
 
