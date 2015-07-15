@@ -234,13 +234,14 @@ public class MainActivity extends ActionBarActivity {
 
             //Obtenemos el Registration ID guardado
             regid = getRegistrationId(context);
-            new RegGCMUsersTask().execute();
+
 
             //Si no disponemos de Registration ID comenzamos el registro
             if (regid.equals("")) {
                 TareaRegistroGCM tarea = new TareaRegistroGCM();
                 tarea.execute(txtUser.getText().toString());
             }
+            new RegGCMUsersTask().execute();
         }
         else
         {
