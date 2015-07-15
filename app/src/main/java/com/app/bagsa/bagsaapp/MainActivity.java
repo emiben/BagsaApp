@@ -50,6 +50,12 @@ public class MainActivity extends ActionBarActivity {
     private Boolean retornoWS=false;
     private ProgressDialog pDialog;
 
+    //variables para insertar regID
+    private static String SOAP_ACTION1 = "http://servidor.ws.bagsaBroadcast.com/regGCMUsers";
+    private static String NAMESPACE = "http://servidor.ws.bagsaBroadcast.com";
+    private static String METHOD_NAME1 = "regGCMUsers";
+    private static String URL = "http://192.168.13.115:8080/axis2/services/getGCMUsersService?wsdl";
+
 
     private static final String PROPERTY_REG_ID = "PID";
     private static final String PROPERTY_USER = "PU";
@@ -78,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
 
         testDataBase();
 
-       // registerGCM(); se hace al momento de cargar la base
+        registerGCM();// se hace al momento de cargar la base
 
     }
 
@@ -215,6 +221,7 @@ public class MainActivity extends ActionBarActivity {
 
             //Obtenemos el Registration ID guardado
             regid = getRegistrationId(context);
+            new RegGCMUsersTask().execute();
 
             //Si no disponemos de Registration ID comenzamos el registro
             if (regid.equals("")) {
@@ -228,6 +235,38 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private class RegGCMUsersTask extends AsyncTask<String,Integer,String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String resIds = "";
+
+            regGCMUser();
+            return null;
+        }
+
+        public void regGCMUser() {
+            //Initialize soap request + add parameters
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME1);
+            //Use this to add parameters
+            request.addProperty("regID", regid);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            envelope.setOutputSoapObject(request);
+            envelope.dotNet = true;
+
+            try {
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+                //this is the actual part that will call the webservice
+                androidHttpTransport.call(SOAP_ACTION1, envelope);
+
+                // Get the SoapResult from the envelope body.
+                SoapObject result = (SoapObject) envelope.bodyIn;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private String getRegistrationId(Context context)
     {
@@ -266,11 +305,11 @@ public class MainActivity extends ActionBarActivity {
             Log.d(TAG, "Nueva versión de la aplicación.");
             return "";
         }
-        else if (System.currentTimeMillis() > expirationTime)
-        {
-            Log.d(TAG, "Registro GCM expirado.");
-            return "";
-        }
+//        else if (System.currentTimeMillis() > expirationTime)
+//        {
+//            Log.d(TAG, "Registro GCM expirado.");
+//            return "";
+//        }
         else if (!txtUser.getText().toString().equals(registeredUser))
         {
             Log.d(TAG, "Nuevo nombre de usuario.");
