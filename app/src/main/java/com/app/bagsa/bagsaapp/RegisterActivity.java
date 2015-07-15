@@ -340,7 +340,7 @@ public class RegisterActivity extends ActionBarActivity {
                     try{
                         int a = Integer.valueOf(recID);
                         if(0<a){
-                            mensajeWS = "REGISTRO EXITOSO !!";
+                            mensajeWS = "REGISTRO ENVIADO !!";
                             reg = true;
                         }
                     }catch (Exception e){

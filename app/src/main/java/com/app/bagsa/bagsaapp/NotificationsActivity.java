@@ -66,7 +66,7 @@ public class NotificationsActivity extends FragmentActivity {
         try {
             db = new DBHelper(getApplicationContext());
             db.openDB(0);
-            Cursor rs = db.querySQL("Select * from Notifications", null);
+            Cursor rs = db.querySQL("Select * from Notificaciones", null);
             if(rs.moveToFirst()) {
                 while (rs.moveToNext()) {
                     int i = 0;
