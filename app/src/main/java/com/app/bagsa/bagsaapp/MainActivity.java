@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
     private static String SOAP_ACTION1 = "http://servidor.ws.bagsaBroadcast.com/regGCMUsers";
     private static String NAMESPACE = "http://servidor.ws.bagsaBroadcast.com";
     private static String METHOD_NAME1 = "regGCMUsers";
-    private static String URL = "http://200.71.26.66:8080/axis2/services/getGCMUsersService?wsdl";
+    private static String URL = "http://200.71.26.66:6200/axis2/services/getGCMUsersService?wsdl";
 
 
     private static final String PROPERTY_REG_ID = "PID";
@@ -87,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
 
         testDataBase();
 
-        registerGCM();// se hace al momento de cargar la base
+        //registerGCM();// se hace al momento de cargar la base
 
     }
 
