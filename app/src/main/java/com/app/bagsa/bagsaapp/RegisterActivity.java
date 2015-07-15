@@ -379,7 +379,7 @@ public class RegisterActivity extends ActionBarActivity {
 
         }else if(in_Psw.equals(in_ConfPsw)){
             return "OK";
-        }else return "Las contraseñas no coinciden";
+        }else return "Las contrasenas no coinciden";
     }
 
     private void startMainActivity() {
