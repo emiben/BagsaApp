@@ -11,10 +11,10 @@
     <string name="cellphone_num">Celular</string>
     <string name="town">Localidad</string>
     <string name="user_type">Tipo de Usuario</string>
-    <string name="producer">Productor</string>
-    <string name="industrial">Industrial</string>
-    <string name="other">Otro</string>
-    <string name="exportador">Exportador</string>
+    <string name="producer">1-Productor</string>
+    <string name="industrial">2-Industrial</string>
+    <string name="other">4-Otros</string>
+    <string name="exportador">3-Exportador</string>
     <string name="transactionsBolsa">Ha realizado transacciones en Bolsa?</string>
     <string name="transBag">Realiza sus transacciones en Bagsa?</string>
     <string name="notes">Nota: La información es para uso exclusivo de BAGSA,
@@ -93,5 +93,6 @@
     <string name="logoBagsa">logoBagsa</string>
     <string name="logoImgVBagsa">imgViewLogoBagsa</string>
 
+    <string name="noInternet">No hay acceso a internet !!</string>
 
 </resources>

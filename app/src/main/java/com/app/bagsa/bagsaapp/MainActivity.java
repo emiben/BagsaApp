@@ -3,6 +3,8 @@ package com.app.bagsa.bagsaapp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -107,17 +109,24 @@ public class MainActivity extends ActionBarActivity {
                 userIn = txtUser.getText().toString();
                 pswIn = txtPsw.getText().toString();
                 //if(u.equals("admin") && p.equals("admin")){
-                if(loginWS(userIn,pswIn)){
-                    startPrincipalActivity(0);
-                }else{
-                    Context context = getApplicationContext();
-                    CharSequence text =  getResources().getString(R.string.user_pws_error);
-                    int duration = Toast.LENGTH_SHORT;
+                if(isOnline()){
+                    if(loginWS(userIn,pswIn)){
+                        startPrincipalActivity(0);
+                    }else{
+                        Context context = getApplicationContext();
+                        CharSequence text =  getResources().getString(R.string.user_pws_error);
+                        int duration = Toast.LENGTH_SHORT;
 
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                 }
-            }
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                }else{
+
+                    CharSequence text =  getResources().getString(R.string.noInternet);
+                    Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+                    toast.show();                }
+
+                }
         });
         btnGuest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -493,5 +502,19 @@ public class MainActivity extends ActionBarActivity {
             Log.d(TAG, "Error registro en mi servidor: " + e.getCause() + " || " + e.getMessage());
         }
         return reg;
+    }
+
+    private boolean isOnline(){
+        Boolean ret = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            if (netInfo != null && netInfo.isConnected()) {
+                ret = true;
+            }
+        }catch (Exception e){
+            e.getMessage();
+        }
+        return ret;
     }
 }

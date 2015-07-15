@@ -1,7 +1,11 @@
 package com.app.bagsa.bagsaapp;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,16 +23,22 @@ import android.widget.Toast;
 import com.app.bagsa.bagsaapp.Utils.Env;
 
 import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.AttributeInfo;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 
 
 public class RegisterActivity extends ActionBarActivity {
 
+    private String mensajeWS = "";
+    private Activity mCtx = null;
+    private String recID = "";
     private Boolean retornoWS=false;
     private ProgressDialog pDialog;
 
@@ -64,6 +74,8 @@ public class RegisterActivity extends ActionBarActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_register);
+        mCtx = this;
+
         //setTitle(R.string.title_activity_boletin);
         getViewElements();
         setElementsEvents();
@@ -113,15 +125,22 @@ public class RegisterActivity extends ActionBarActivity {
         BtnRegis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mje = verficarDataIn();
-                if(mje.equals("OK")){
-                    if(sendDataWS()){
-                        startMainActivity();
+                if(isOnline()){
+                    String mje = verficarDataIn();
+                    if(mje.equals("OK")){
+                        if(sendDataWS()){
+                            startMainActivity();
+                        }
+                    }else{
+                        Toast toast = Toast.makeText(getBaseContext(), mje, Toast.LENGTH_SHORT);
+                        toast.show();
                     }
-                }else{
-                    Toast toast = Toast.makeText(getBaseContext(), mje, Toast.LENGTH_LONG);
+                }else {
+                    CharSequence text =  getResources().getString(R.string.noInternet);
+                    Toast toast = Toast.makeText(getBaseContext(), text, Toast.LENGTH_SHORT);
                     toast.show();
                 }
+
             }
         });
         linkLogIn.setOnClickListener(new View.OnClickListener() {
@@ -142,96 +161,158 @@ public class RegisterActivity extends ActionBarActivity {
                     e.getMessage();
                 }
                 pDialog.dismiss();
+                (mCtx).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!retornoWS){
+                            Toast toast = Toast.makeText(getBaseContext(), mensajeWS, Toast.LENGTH_LONG);
+                            toast.show();
+                        }else{
+                            Toast toast = Toast.makeText(getBaseContext(), mensajeWS, Toast.LENGTH_LONG);
+                            toast.show();
+                            startMainActivity();
+                        }
+                    }
+                });
             }
         }.start();
 
         return retornoWS;
 
-
     }
 
     private Boolean sendRequestWebServer() {
 
+        String[] ColumYVal = obtenerDatos();
         boolean reg = false;
 
-        final String NAMESPACE = Env.NAMESPACE;
-        final String URL=Env.URL;
+        final String NAMESPACE = "http://3e.pl/ADInterface";
+        final String URL = "http://200.71.26.66:6050/ADInterface-1.0/services/ModelADService";
         final String METHOD_NAME = "createData";
         final String SOAP_ACTION = "http://3e.pl/ADInterface/ModelADServicePortType/createDataRequest";
-        /* <adin:ModelCRUDRequest>
-            <adin:ModelCRUD>
-               <adin:serviceType>CreateUsuarioMovil</adin:serviceType>
-               <adin:TableName>UY_UserReq</adin:TableName>
-               <adin:RecordID>1</adin:RecordID>
-               <!--<adin:Filter>?</adin:Filter>
--->
-               <adin:Action>Create</adin:Action>
-               <!--Optional:-->
-               <adin:DataRow>
-                  <!--Zero or more repetitions:-->
-                  <adin:field column="Name" >
-                     <adin:val>SBT_TEST</adin:val>
-                  </adin:field>
-                  <adin:field column="Phone" >
-                     <adin:val>123456789</adin:val>
-                  </adin:field>
-			   <adin:field column="Address1" >
-                     <adin:val>Calle Test 1111</adin:val>
-                  </adin:field>
-                  <adin:field column="EMail" >
-                     <adin:val>mimail@gmail.com</adin:val>
-                  </adin:field>
-                  <adin:field column="C_DocType_ID" >
-                     <adin:val>1001042</adin:val>
-                  </adin:field>
-                  <adin:field column="Code" >
-                     <adin:val>123456789</adin:val>
-                  </adin:field>
-			   <adin:field column="FirstName" >
-                     <adin:val>SBT</adin:val>
-                  </adin:field>
-                  <adin:field column="FirstSurname" >
-                     <adin:val>SBT_TEST</adin:val>
-                  </adin:field>
-                  <adin:field column="DocStatus" >
-                     <adin:val>DR</adin:val>
-                  </adin:field>
-                  <adin:field column="DateTrx" >
-                  <!-- yyyy-mm-dd hh:mm:ss-->
-                     <adin:val>2015-07-10 00:00:00</adin:val>
-                  </adin:field>
-               </adin:DataRow>
-            </adin:ModelCRUD>
-            <adin:ADLoginRequest>
-               <adin:user>sbouissa</adin:user>
-               <adin:pass>sbouissa</adin:pass>
-               <adin:lang>143</adin:lang>
-               <adin:ClientID>1000006</adin:ClientID>
-               <adin:RoleID>1000022</adin:RoleID>
-               <adin:OrgID>1000007</adin:OrgID>
-               <adin:WarehouseID>1000052</adin:WarehouseID>
-               <adin:stage>0</adin:stage>
-            </adin:ADLoginRequest>
-         </adin:ModelCRUDRequest>
-      </adin:createData>
-*/
+
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-        SoapObject adLoginRequest = new SoapObject(NAMESPACE,"ADLoginRequest");
+
+        SoapObject ModelCRUDRequest = new SoapObject(NAMESPACE, "ModelCRUDRequest");
+        SoapObject ModelCRUD =  new SoapObject(NAMESPACE, "ModelCRUD");
+
+        PropertyInfo serviceType= new PropertyInfo();
+        serviceType.setName("serviceType");
+        serviceType.setValue("RegisterMobileUser");
+        serviceType.setNamespace(NAMESPACE);
+        serviceType.setType(String.class);
+        ModelCRUD.addProperty(serviceType);
+        //ModelCRUD.addProperty("serviceType", "RegisterMobileUser");
+        PropertyInfo TableName= new PropertyInfo();
+        TableName.setName("TableName");
+        TableName.setValue("UY_UserReq");
+        TableName.setNamespace(NAMESPACE);
+        TableName.setType(String.class);
+        ModelCRUD.addProperty(TableName);
+       // ModelCRUD.addProperty("TableName", "UY_UserReq");
+        PropertyInfo RecordID= new PropertyInfo();
+        RecordID.setName("RecordID");
+        RecordID.setValue("1");
+        RecordID.setNamespace(NAMESPACE);
+        RecordID.setType(String.class);
+        ModelCRUD.addProperty(RecordID);
+        //ModelCRUD.addProperty("RecordID", "1");
+        PropertyInfo Action= new PropertyInfo();
+        Action.setName("Action");
+        Action.setValue("Create");
+        Action.setNamespace(NAMESPACE);
+        Action.setType(String.class);
+        ModelCRUD.addProperty(Action);
+       // ModelCRUD.addProperty("Action", "Create");
+
+        SoapObject DataRow = new SoapObject(NAMESPACE, "DataRow");
+        SoapObject field;
+
+        for(int i = 0;i<ColumYVal.length;i++){
+            field = new SoapObject(NAMESPACE, "field");
+
+           // PropertyInfo pi= new PropertyInfo();
+          //  pi.setName("column");
+          //  pi.setValue(ColumYVal[i++]);
+          //  pi.setType(String.class);
+         //   pi.setNamespace(NAMESPACE);
+         //   field.addProperty(pi);
+          field.addAttribute("column", ColumYVal[i++]);
+
+            PropertyInfo pi2 = new PropertyInfo();
+            //SoapObject pi2 = new SoapObject(NAMESPACE,"val");
+            //PropertyInfo pi= new PropertyInfo();
+            pi2.setName("val");
+             pi2.setValue(ColumYVal[i]);
+            pi2.setType(String.class);
+             pi2.setNamespace(NAMESPACE);
+            field.addProperty(pi2);
+
+            //field.addSoapObject(pi2);
+           // field.addProperty("val", ColumYVal[i]);
+            DataRow.addSoapObject(field);
+        }
+
+        ModelCRUD.addSoapObject(DataRow);
+        ModelCRUDRequest.addSoapObject(ModelCRUD);
+
+        SoapObject ADLoginRequest = new SoapObject(NAMESPACE, "ADLoginRequest");
+        String usr = "sbouissa";
         PropertyInfo usrPI= new PropertyInfo();
         usrPI.setName("user");
         usrPI.setValue("sbouissa");
         usrPI.setNamespace(NAMESPACE);
         usrPI.setType(String.class);
-        adLoginRequest.addProperty(usrPI);
-
+        ADLoginRequest.addProperty(usrPI);
         PropertyInfo pswPI= new PropertyInfo();
         pswPI.setName("pass");
         pswPI.setValue("sbouissa");
         pswPI.setNamespace(NAMESPACE);
         pswPI.setType(String.class);
-        adLoginRequest.addProperty(pswPI);
+        ADLoginRequest.addProperty(pswPI);
+        //ADLoginRequest.addProperty("user",  String.valueOf(usr));
+        //ADLoginRequest.addProperty("pass", String.valueOf(usr));
+        PropertyInfo lang= new PropertyInfo();
+        lang.setName("lang");
+        lang.setValue("143");
+        lang.setNamespace(NAMESPACE);
+        lang.setType(String.class);
+        ADLoginRequest.addProperty(lang);
+        //ADLoginRequest.addProperty("lang","143");
+        // ADLoginRequest.addProperty("lang", String.valueOf(Env.getAD_Language(m_Ctx))));
+        PropertyInfo cli= new PropertyInfo();
+        cli.setName("ClientID");
+        cli.setValue("1000006");
+        cli.setNamespace(NAMESPACE);
+        cli.setType(String.class);
+        ADLoginRequest.addProperty(cli);
+        //ADLoginRequest.addProperty("ClientID", "1000006");
+        //  ADLoginRequest.addProperty("RoleID", String.valueOf(Env.getAD_Role_ID(m_Ctx)));
+        PropertyInfo rol= new PropertyInfo();
+        rol.setName("RoleID");
+        rol.setValue("1000022");
+        rol.setNamespace(NAMESPACE);
+        rol.setType(String.class);
+        ADLoginRequest.addProperty(rol);
+        //ADLoginRequest.addProperty("RoleID", "1000022");
+        PropertyInfo org= new PropertyInfo();
+        org.setName("OrgID");
+        org.setValue("1000007");
+        org.setNamespace(NAMESPACE);
+        org.setType(String.class);
+        ADLoginRequest.addProperty(org);
+       // ADLoginRequest.addProperty("OrgID", "1000007");
+        //   ADLoginRequest.addProperty("WarehouseID",String.valueOf(Env.getM_Warehouse_ID(m_Ctx)));
+        PropertyInfo ware= new PropertyInfo();
+        ware.setName("WarehouseID");
+        ware.setValue("1000052");
+        ware.setNamespace(NAMESPACE);
+        ware.setType(String.class);
+        ADLoginRequest.addProperty(ware);
+        //ADLoginRequest.addProperty("WarehouseID","1000052");
+        ModelCRUDRequest.addSoapObject(ADLoginRequest);
 
-        request.addSoapObject(adLoginRequest);
+        request.addSoapObject(ModelCRUDRequest);
         SoapSerializationEnvelope envelope =
                 new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.dotNet = false;
@@ -242,19 +323,37 @@ public class RegisterActivity extends ActionBarActivity {
         {
             transporte.call(SOAP_ACTION, envelope);
             SoapObject resultado_xml =(SoapObject)envelope.getResponse();
-            String status = resultado_xml.getProperty("status").toString();
+            Object val = resultado_xml.getAttribute(0);
 
-            //SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
-            String res = resultado_xml.toString();
+            if(val.toString().contains("true")){
+                Object total = resultado_xml.getProperty(0);
+                if(total.toString().contains("codeunique_uy_userreq")) {
+                    mensajeWS = "USER NO DISPONIBLE";
+                }
+            }else{
+                //String status = resultado_xml.getProperty("StandardResponse").toString();
 
-            if(status.equals("1000006"))
-            {
-              //  Log.d(TAG, "Registrado en mi servidor.");
-                reg = true;
+                //SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
+                recID = val.toString();
+
+                if(val!= null){
+                    try{
+                        int a = Integer.valueOf(recID);
+                        if(0<a){
+                            mensajeWS = "REGISTRO EXITOSO !!";
+                            reg = true;
+                        }
+                    }catch (Exception e){
+                        mensajeWS = "No se ha resitrado,intente nuevamente";
+                    }
+                }
             }
+
         }
         catch (Exception e)
         {
+            mensajeWS = "No se ha resitrado,intente nuevamente";
+            e.getMessage();
             //Log.d(TAG, "Error registro en mi servidor: " + e.getCause() + " || " + e.getMessage());
         }
         return reg;
@@ -306,5 +405,62 @@ public class RegisterActivity extends ActionBarActivity {
     public void onBackPressed() {
         super.onBackPressed();
         startMainActivity();
+    }
+
+    private String[] obtenerDatos() {
+        // TODO Auto-generated method stub
+        String[] ColumYVal = new String[24];
+        int i=0;
+            ColumYVal[i++] = "Name"; //colum
+            ColumYVal[i++] = in_FullName; //val
+
+            ColumYVal[i++] = "Code"; //colum
+            ColumYVal[i++] = in_UserName; //val
+
+            ColumYVal[i++] = "C_DocType_ID"; //colum
+            ColumYVal[i++] = "1001051"; //val
+
+            ColumYVal[i++] = "EMail"; //colum
+            ColumYVal[i++] = in_Email; //val
+
+            ColumYVal[i++] = "Address1"; //colum
+            ColumYVal[i++] = in_Localidad; //val
+
+            ColumYVal[i++] = "DateTrx"; //colum
+            ColumYVal[i++] = "2015-07-14 00:00:00"; //val
+
+            ColumYVal[i++] = "Phone"; //colum
+            ColumYVal[i++] = in_Phone;
+
+            ColumYVal[i++] = "UserLevel"; //colum
+            ColumYVal[i++] = in_TypoUsuario; //val
+
+            ColumYVal[i++] = "DocStatus"; //colum
+            ColumYVal[i++] = "DR"; //val
+
+            ColumYVal[i++] = "Password"; //colum
+            ColumYVal[i++] = in_Psw; //val
+
+            ColumYVal[i++] = "HaveAttach1"; //colum Envio siempre 0 y en document no  configuro id de ruta
+            ColumYVal[i++] = ((in_Transac)?"Y":"N"); //val
+            //ordenEnvio.getDocumentNo()
+            ColumYVal[i++] = "HaveAttach2"; //colum
+            ColumYVal[i++] = ((in_TransacBgsa)?"Y":"N"); //val //val
+
+        return ColumYVal;
+    }
+
+    private boolean isOnline(){
+        Boolean ret = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		    if (netInfo != null && netInfo.isConnected()) {
+                ret = true;
+            }
+        }catch (Exception e){
+            e.getMessage();
+        }
+        return ret;
     }
 }
