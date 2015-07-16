@@ -66,8 +66,8 @@ public class GCMIntentService extends IntentService{
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_notif_calend)
                         .setContentTitle("Bagsa")
-                        .setContentText(mje);
-
+                        .setContentText(mje)
+                        .setAutoCancel(true);
 
         Intent notIntent =  new Intent(this, NotificationsActivity.class);
         PendingIntent contIntent = PendingIntent.getActivity(
