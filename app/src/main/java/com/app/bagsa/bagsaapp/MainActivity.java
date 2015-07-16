@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,8 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.bagsa.bagsaapp.Utils.BagsaDB;
+import com.app.bagsa.bagsaapp.Utils.DBHelper;
 import com.app.bagsa.bagsaapp.Utils.Env;
 import com.app.bagsa.bagsaapp.Utils.InitialLoad;
+import com.app.bagsa.bagsaapp.base.DB;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -41,10 +44,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private String m_deviceID="";
     //Variables login
     private Activity mCtx = null;
     private String userIn="";
@@ -56,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
     private static String SOAP_ACTION1 = "http://servidor.ws.bagsaBroadcast.com/regGCMUsers";
     private static String NAMESPACE = "http://servidor.ws.bagsaBroadcast.com";
     private static String METHOD_NAME1 = "regGCMUsers";
-    private static String URL = "http://192.168.13.115:8080/axis2/services/getGCMUsersService?wsdl";
+    private static String URL = "http://200.71.26.66:8080/axis2/services/getGCMUsersService.aar?wsdl";
 
 
     private static final String PROPERTY_REG_ID = "PID";
@@ -77,17 +82,20 @@ public class MainActivity extends ActionBarActivity {
     //Buttons
     private Button btnGuest;
     private Button btnLogin;
+    //private String deviceID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mCtx = this;
+        m_deviceID =  getDeviceID();
         getViewElements();
         setElementsEvents();
 
         testDataBase();
 
-        //registerGCM();// se hace al momento de cargar la base
+        registerGCM();// se hace al momento de cargar la base
 
     }
 
@@ -224,63 +232,65 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void registerGCM(){
+    public void registerGCM() {
         context = getApplicationContext();
 
         //Chequemos si está instalado Google Play Services
-        if(checkPlayServices())
-        {
+        if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
 
             //Obtenemos el Registration ID guardado
             regid = getRegistrationId(context);
 
-
             //Si no disponemos de Registration ID comenzamos el registro
             if (regid.equals("")) {
                 TareaRegistroGCM tarea = new TareaRegistroGCM();
                 tarea.execute(txtUser.getText().toString());
+            } else {
+                boolean ret = DBHelper.exists("UY_BG_GCMDevice", "TokenID = '" + regid + "'", getBaseContext());
+                if (!ret) {
+                    DBHelper db = new DBHelper(getBaseContext());
+                    db.executeSQL("UPDATE UY_BG_GCMDevice set TokenID = '" + regid + "' WHERE DeviceID = '"+m_deviceID+"'");
+                }
             }
-            new RegGCMUsersTask().execute();
-        }
-        else
-        {
+            //new RegGCMUsersTask().execute();
+        } else {
             Log.i(TAG, "No se ha encontrado Google Play Services.");
         }
     }
 
-    private class RegGCMUsersTask extends AsyncTask<String,Integer,String> {
-        @Override
-        protected String doInBackground(String... params) {
-            String resIds = "";
-
-            regGCMUser();
-            return null;
-        }
-
-        public void regGCMUser() {
-            //Initialize soap request + add parameters
-            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME1);
-            //Use this to add parameters
-            request.addProperty("regID", regid);
-            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            envelope.setOutputSoapObject(request);
-            envelope.dotNet = true;
-
-            try {
-                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
-
-                //this is the actual part that will call the webservice
-                androidHttpTransport.call(SOAP_ACTION1, envelope);
-
-                // Get the SoapResult from the envelope body.
-                SoapObject result = (SoapObject) envelope.bodyIn;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    private class RegGCMUsersTask extends AsyncTask<String,Integer,String> {
+//        @Override
+//        protected String doInBackground(String... params) {
+//            String resIds = "";
+//
+//            regGCMUser();
+//            return null;
+//        }
+//
+//        public void regGCMUser() {
+//            //Initialize soap request + add parameters
+//            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME1);
+//            //Use this to add parameters
+//            request.addProperty("regID", regid);
+//            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//            envelope.setOutputSoapObject(request);
+//            envelope.dotNet = true;
+//
+//            try {
+//                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+//
+//                //this is the actual part that will call the webservice
+//                androidHttpTransport.call(SOAP_ACTION1, envelope);
+//
+//                // Get the SoapResult from the envelope body.
+//                SoapObject result = (SoapObject) envelope.bodyIn;
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     private String getRegistrationId(Context context)
     {
@@ -378,13 +388,33 @@ public class MainActivity extends ActionBarActivity {
         } else {
             InitialLoad initData = new InitialLoad(this);
             initData.initialLoad_copyDB();
-            registerGCM();
+            //registerGCM();
         }
     }
 
+    /**
+     * Sbouissa 15-07-2015
+     * @return
+     */
+    public String getDeviceID() {
+        String id="";
+
+            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+            id =  telephonyManager.getDeviceId();
+
+//            try{
+//                DB con = new DB(this);
+//                con.openDB(DB.READ_WRITE);
+//                con.executeSQL("UPDATE UY_MB_Device SET IsActive='N' WHERE UY_MB_Device.DeviceCode <> "+id);
+//                con.close();
+//            }catch (Exception e){
+//                System.out.println(e.toString());
+//            }
+        return id.toString();
+    }
 
 
-//FIN CLASE SYNC
+    //FIN CLASE SYNC
     private class TareaRegistroGCM extends AsyncTask<String,Integer,String>
     {
         @Override
@@ -405,7 +435,24 @@ public class MainActivity extends ActionBarActivity {
                 Log.d(TAG, "Registrado en GCM: registration_id=" + regid);
 
                 //Nos registramos en nuestro servidor
-                boolean registrado = registroServidor(params[0], regid);
+
+                boolean registrado = false;
+                DBHelper db = new DBHelper(getBaseContext());
+                if(regid!=null){
+                    boolean ret = DBHelper.exists("UY_BG_GCMDevice", " DeviceID = '" + m_deviceID + "' ", getBaseContext());
+                    if (!ret) {
+                        db.inserting("UY_BG_GCMDevice","(TokenID,DeviceID)","'"+regid+"','"+m_deviceID+"'",getBaseContext());
+                       // db.executeSQL("INSERT UY_BG_GCMDevice set TokenID = '" + regid + "', DeviceID = '"+m_deviceID+"'");
+                        registrado = registroServidor(params[0], regid);
+                    }else{
+                        boolean ret1 = DBHelper.exists("UY_BG_GCMDevice", "TokenID = '" + regid + "' AND DeviceID = '"+m_deviceID+"' ", getBaseContext());
+                        if(!ret1){
+                            db.executeSQL("UPDATE UY_BG_GCMDevice set TokenID = '" + regid + "' WHERE DeviceID = '"+m_deviceID+"'");
+                            registrado = registroServidor(params[0], regid);
+                        }
+                    }
+                }
+                db.close();
 
                 //Guardamos los datos del registro
                 if(registrado)
@@ -425,63 +472,33 @@ public class MainActivity extends ActionBarActivity {
         {
             boolean reg = false;
 
-            final String NAMESPACE = "http://3e.pl/ADInterface";
-            final String URL="http://192.168.13.103:8273/ADInterface-1.0/services/ADService";
-            final String METHOD_NAME = "login";
-            final String SOAP_ACTION = "http://3e.pl/ADInterface/ADServicePortType/loginRequest";
-
-            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-            SoapObject adLoginRequest = new SoapObject(NAMESPACE,"ADLoginRequest");
-           // request.setProperty(0,"sbouissa");
-           // request.setProperty(1,"sbouissa");
-            PropertyInfo usrPI= new PropertyInfo();
-            usrPI.setName("user");
-            usrPI.setValue("sbouissa");
-            usrPI.setNamespace(NAMESPACE);
-            usrPI.setType(String.class);
-            adLoginRequest.addProperty(usrPI);
-
-            PropertyInfo pswPI= new PropertyInfo();
-            pswPI.setName("pass");
-            pswPI.setValue("sbouissa");
-            pswPI.setNamespace(NAMESPACE);
-            pswPI.setType(String.class);
-            adLoginRequest.addProperty(pswPI);
-
-            //request.addProperty("user", "sbouissa");
-            //request.addProperty("pass", "sbouissa");
-            request.addSoapObject(adLoginRequest);
-            SoapSerializationEnvelope envelope =
-                    new SoapSerializationEnvelope(SoapEnvelope.VER11);
-
-            envelope.dotNet = false;
-
+            //Initialize soap request + add parameters
+            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME1);
+            //Use this to add parameters
+            request.addProperty("regID", regid);
+            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
             envelope.setOutputSoapObject(request);
+            envelope.dotNet = true;
 
-            HttpTransportSE transporte = new HttpTransportSE(URL);
-
-            try
-            {
-                transporte.call(SOAP_ACTION, envelope);
-                SoapObject resultado_xml =(SoapObject)envelope.getResponse();
-                String status = resultado_xml.getProperty("status").toString();
-
-                //SoapPrimitive resultado_xml =(SoapPrimitive)envelope.getResponse();
-                String res = resultado_xml.toString();
-
-                if(status.equals("1000006"))
-                {
-                    Log.d(TAG, "Registrado en mi servidor.");
+            try {
+                HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+                //this is the actual part that will call the webservice
+                androidHttpTransport.call(SOAP_ACTION1, envelope);
+                // Get the SoapResult from the envelope body.
+                SoapObject o = (SoapObject)envelope.bodyIn;
+                SoapObject result = (SoapObject) envelope.bodyIn;
+                Objects results = (Objects) envelope.getResponse();
+                if(result!=null){
                     reg = true;
                 }
-            }
-            catch (Exception e)
-            {
-                Log.d(TAG, "Error registro en mi servidor: " + e.getCause() + " || " + e.getMessage());
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             return reg;
         }
+
         private void setRegistrationId(Context context, String user, String regId)
         {
             SharedPreferences prefs = getSharedPreferences(
@@ -570,4 +587,6 @@ public class MainActivity extends ActionBarActivity {
         }
         return ret;
     }
+
+
 }

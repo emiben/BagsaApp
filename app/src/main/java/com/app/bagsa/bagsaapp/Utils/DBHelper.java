@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Created by Emilino on 15/07/2015.
@@ -151,7 +153,111 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.insert(table, columnaNull, values);
     }
 
+    /**
+     * Load a Connection
+     * @author sbouissa 15/07/2015
+     * @param conn
+     * @param type
+     * @return
+     */
+    public static void loadConnection(DBHelper conn, int type) {
+        if(conn != null
+                && !conn.isOpen()) {
+            conn.openDB(type);
+            if(type == READ_WRITE)
+                conn.beginTransaction();
+        }
+    }
+
+    /**
+     * Verifi if is open database
+     * @author sbouissa 15/07/2015
+     * @return
+     * @return boolean
+     */
+    public boolean isOpen(){
+        boolean ok = false;
+        if(db != null){
+            ok = db.isOpen();
+        }
+        return ok;
+    }
+
+    /**
+     * Begin transaction
+     * @author sbouissa 15/07/2015
+     * @return void
+     */
+    public void beginTransaction(){
+        db.beginTransaction();
+    }
+
+    /**
+     * End transaction
+     * @author sbouissa 15/07/2015
+     * @return void
+     */
+    public void endTransaction(){
+        db.endTransaction();
+    }
+
     public SQLiteDatabase getDB(){
         return db;
     }
+
+
+
+    /**
+     * Se recibe nombre de tabla a consultar clausula where (id = 123)
+     * @param table
+     * @param where
+     * @return
+     */
+    public static boolean exists(String table, String where, Context ctxIn){
+        boolean retValue = false;
+        DBHelper conn = null;
+        Cursor rs = null;
+        try{
+            String sql = "SELECT * FROM "+table+ " WHERE "+where;
+            conn = new DBHelper(ctxIn);
+            loadConnection(conn, READ_ONLY);
+            rs = conn.querySQL(sql, null);
+            if(rs.moveToFirst()) {
+                retValue = true;
+            }
+        }catch (SQLiteException e){
+            e.getMessage();
+        }finally {
+            conn.closeDB(rs);
+        }
+        //	Return
+        return retValue;
+    }
+
+
+    /**
+     * Se recibe nombre de tabla a consultar clausula where (id = 123)
+     * @param table
+     * @param cols
+     * @return
+     */
+    public static boolean inserting(String table, String cols, String values, Context ctxIn){
+        boolean retValue = false;
+        DBHelper conn = null;
+        Cursor rs = null;
+        try{
+            String sql = "INSERT INTO "+table+ " "+cols+" VALUES("+values+")";
+            conn = new DBHelper(ctxIn);
+            loadConnection(conn, READ_ONLY);
+            conn.executeSQL(sql);
+        }catch (SQLiteException e){
+            e.getMessage();
+        }finally {
+            conn.closeDB(rs);
+        }
+        //	Return
+        return retValue;
+    }
+
+
 }

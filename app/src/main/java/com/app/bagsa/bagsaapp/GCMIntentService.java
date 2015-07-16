@@ -49,14 +49,25 @@ public class GCMIntentService extends IntentService{
 
     private void mostrarNotification(String msg)
     {
+        String[] m = new String[4];
+        String mje = "";
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        try{
+            m = msg.split("#");
+            mje = m[1];
+        }catch (Exception e){
 
+        }
+        if(mje.equals("")){
+            mje = msg;
+        }
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(android.R.drawable.stat_sys_warning)
-                        .setContentTitle("Bagsa Notifica")
-                        .setContentText(msg);
+                        .setSmallIcon(R.drawable.ic_notif_calend)
+                        .setContentTitle("Bagsa")
+                        .setContentText(mje)
+                        .setAutoCancel(true);
 
         Intent notIntent =  new Intent(this, NotificationsActivity.class);
         PendingIntent contIntent = PendingIntent.getActivity(
