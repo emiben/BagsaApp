@@ -1,6 +1,7 @@
 package com.app.bagsa.bagsaapp;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class NotificationsActivity extends FragmentActivity {
 
-    TableLayout table_layout;
+    private TableLayout table_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +63,26 @@ public class NotificationsActivity extends FragmentActivity {
     }
 
     private void BuildTable(){
-        int rows = 20, cols = 3;
         DBHelper db = null;
         try {
             db = new DBHelper(getApplicationContext());
             db.openDB(0);
-            Cursor rs = db.querySQL("Select * from Notificaciones", null);
+            Cursor rs = db.querySQL("Select * from Notificaciones order by fecha desc", null);
             if(rs.moveToFirst()) {
-                while (rs.moveToNext()) {
+                do {
                     int i = 0;
                     TableRow row = new TableRow(this);
                     row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                             TableRow.LayoutParams.WRAP_CONTENT));
+                    row.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            TableRow t = (TableRow) view;
+                            TextView firstTextView = (TextView) t.getChildAt(3);
+                            int noticeID = Integer.parseInt(firstTextView.getText().toString());
+
+                            startNotifDescActivity(noticeID);
+                        }
+                    });
 
                     TextView tv = new TextView(this);
                     tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
@@ -104,7 +114,16 @@ public class NotificationsActivity extends FragmentActivity {
                     tv3.setPadding(5, 5, 5, 5);
                     tv3.setGravity(Gravity.CENTER);
 
-//                tv.setTextColor(Integer.parseInt("#FF000000"));
+                    TextView tv4 = new TextView(this);
+                    tv4.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
+                            TableRow.LayoutParams.WRAP_CONTENT));
+                    if (i % 2 == 0)
+                        tv4.setBackgroundResource(R.drawable.celda_cuerpo1);
+                    else
+                        tv4.setBackgroundResource(R.drawable.celda_cuerpo3);
+                    tv4.setPadding(5, 5, 5, 5);
+                    tv4.setGravity(Gravity.CENTER);
+
                     tv.setTypeface(null, Typeface.BOLD);
                     tv.setText(rs.getString(rs.getColumnIndex("descripcion")));
                     row.addView(tv);
@@ -112,9 +131,11 @@ public class NotificationsActivity extends FragmentActivity {
                     row.addView(tv2);
                     tv3.setText(rs.getString(rs.getColumnIndex("fecha")));
                     row.addView(tv3);
+                    tv4.setText(Integer.toString(rs.getInt(rs.getColumnIndex("ID"))));
+                    row.addView(tv4);
                     i++;
                     table_layout.addView(row);
-                }
+                }while (rs.moveToNext());
             }
 
         } catch (Exception e) {
@@ -123,4 +144,15 @@ public class NotificationsActivity extends FragmentActivity {
             db.close();
         }
     }
+
+    private void startNotifDescActivity(int notifID) {
+        Intent i = new Intent(this, NotifDescActivity.class);
+        Bundle b = new Bundle();
+        b.putInt("notifID",notifID);
+        i.putExtras(b);
+        this.finish();
+        startActivity(i);
+    }
+
 }
+

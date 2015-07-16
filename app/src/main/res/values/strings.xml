@@ -94,5 +94,9 @@
     <string name="logoImgVBagsa">imgViewLogoBagsa</string>
 
     <string name="noInternet">No hay acceso a internet !!</string>
+    <string name="title_activity_notif_desc">NotifDescActivity</string>
+
+    <!-- Notificaciones Activity-->
+    <string name="id">ID</string>
 
 </resources>
