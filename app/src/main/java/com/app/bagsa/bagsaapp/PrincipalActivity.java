@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.app.bagsa.bagsaapp.Utils.Env;
+import com.readystatesoftware.viewbadger.BadgeView;
+
 
 public class PrincipalActivity extends ActionBarActivity {
 
@@ -16,6 +19,8 @@ public class PrincipalActivity extends ActionBarActivity {
     private Button reports;
     private Button consEBag;
     private Button transact;
+    private View target;
+    private BadgeView badge;
 
     //sbouissa 02-07-2015
     private int userID = 0;
@@ -33,6 +38,7 @@ public class PrincipalActivity extends ActionBarActivity {
         }
         getViewElements();
         setElementsEvents();
+        setQuantityOfNotif();
 
     }
 
@@ -68,6 +74,8 @@ public class PrincipalActivity extends ActionBarActivity {
             transact.setVisibility(View.GONE);
             consEBag.setVisibility(View.GONE);
         }
+        target = findViewById(R.id.button);
+        badge = new BadgeView(this, target);
     }
 
     private void setElementsEvents() {
@@ -89,12 +97,25 @@ public class PrincipalActivity extends ActionBarActivity {
                 startQrysPricesActivity();
             }
         });
+
         notif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startNotificationsActivity();
             }
         });
+
+
+    }
+
+    private void setQuantityOfNotif() {
+        int number = Env.getNotificationsCount();
+        if(0<number){
+            badge.setText(String.valueOf(number));
+            badge.show();
+        }else{
+            badge.hide();
+        }
     }
 
     private void startNotificationsActivity() {
@@ -120,6 +141,7 @@ public class PrincipalActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+       // Env.setNotificationsCount(0);
         startMainActivity();
     }
     private void startMainActivity() {
@@ -127,4 +149,11 @@ public class PrincipalActivity extends ActionBarActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setQuantityOfNotif();
+    }
+
 }

@@ -6,10 +6,16 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.widget.TextView;
 
 import com.app.bagsa.bagsaapp.Utils.DBHelper;
+import com.app.bagsa.bagsaapp.Utils.Env;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.sql.Timestamp;
@@ -17,11 +23,15 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import me.leolin.shortcutbadger.ShortcutBadgeException;
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 /**
  * Created by SBT on 13/07/2015.
  */
 public class GCMIntentService extends IntentService{
     private static final int NOTIF_ALERTA_ID = 1;
+    private int countNotifications = 0;
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -49,6 +59,8 @@ public class GCMIntentService extends IntentService{
 
     private void mostrarNotification(String msg)
     {
+        countNotifications = Env.getNotificationsCount()+1;
+        Env.setNotificationsCount(countNotifications);
         String[] m = new String[4];
         String mje = "";
         NotificationManager mNotificationManager =
@@ -67,7 +79,11 @@ public class GCMIntentService extends IntentService{
                         .setSmallIcon(R.drawable.ic_notif_calend)
                         .setContentTitle("Bagsa")
                         .setContentText(mje)
-                        .setAutoCancel(true);
+                        .setAutoCancel(true)
+                        .setNumber(countNotifications)
+                        .setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mBuilder.setSound(alarmSound);
 
         Intent notIntent =  new Intent(this, NotificationsActivity.class);
         PendingIntent contIntent = PendingIntent.getActivity(
@@ -75,7 +91,35 @@ public class GCMIntentService extends IntentService{
 
         mBuilder.setContentIntent(contIntent);
 
+        setNumberOfNotifications();
+
         mNotificationManager.notify(NOTIF_ALERTA_ID, mBuilder.build());
+
+
+    }
+
+    private void setNumberOfNotifications() {
+
+        int badgeCount = 0;
+        try {
+            badgeCount = Env.getNotificationsCount();
+            ShortcutBadger.with(getApplicationContext()).count(badgeCount);
+        } catch (NumberFormatException e) {
+            //Toast.makeText(getApplicationContext(), "Error input", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+        //ShortcutBadger.setBadge(getApplicationContext(), badgeCount);
+        //Toast.makeText(getApplicationContext(), "Set count=" + badgeCount, Toast.LENGTH_SHORT).show();
+        //find the home launcher Package
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        ResolveInfo resolveInfo = getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        String currentHomePackage = resolveInfo.activityInfo.packageName;
+
+       // TextView textViewHomePackage = (TextView) findViewById(R.id.eTxtUserName);
+       // textViewHomePackage.setText("launcher:" + currentHomePackage);
     }
 
     private String getDateString() {

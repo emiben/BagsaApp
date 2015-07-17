@@ -1,6 +1,8 @@
 package com.app.bagsa.bagsaapp;
 
+import android.app.NotificationManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -16,11 +18,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.app.bagsa.bagsaapp.Utils.DBHelper;
+import com.app.bagsa.bagsaapp.Utils.Env;
 
 import java.sql.ResultSet;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 
 public class NotificationsActivity extends FragmentActivity {
@@ -31,9 +36,11 @@ public class NotificationsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
-
+        ShortcutBadger.with(getApplicationContext()).count(0);
+        Env.setNotificationsCount(0);
         getViewElements();
         BuildTable();
+        crearNorifications();
     }
 
     @Override
@@ -154,5 +161,15 @@ public class NotificationsActivity extends FragmentActivity {
         startActivity(i);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Env.setNotificationsCount(0);
+    }
+
+    public void crearNorifications(){
+        NotificationManager notifManager= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notifManager.cancelAll();
+    }
 }
 

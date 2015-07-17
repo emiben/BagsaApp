@@ -13,7 +13,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 public class Env {
     /**
      * Notificaciones
+
      */
+    private static int notificationsCount=0;
     private static final String PROPERTY_REG_ID = "PID";
     private static final String PROPERTY_USER = "PU";
     private static final String PROPERTY_APP_VERSION = "PAV";
@@ -63,6 +65,13 @@ public class Env {
         return pf.getString(context, null);
     }	//	getContext
 
+    public static int getNotificationsCount() {
+        return notificationsCount;
+    }
+
+    public static void setNotificationsCount(int notCount) {
+        notificationsCount = notCount;
+    }
     public static boolean isEnvLoad(Context ctx){
         return getContextAsBoolean(ctx, SET_ENV);
     }

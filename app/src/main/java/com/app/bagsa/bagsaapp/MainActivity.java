@@ -88,6 +88,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try{
+            int bgCount = Env.getNotificationsCount();
+            //
+
+        }catch (Exception e){
+            e.getMessage();
+        }
         mCtx = this;
         m_deviceID =  getDeviceID();
         getViewElements();
