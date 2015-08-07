@@ -1,18 +1,18 @@
 package com.app.bagsa.bagsaapp;
 
+
 import android.app.NotificationManager;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,10 +20,6 @@ import android.widget.TextView;
 import com.app.bagsa.bagsaapp.Utils.DBHelper;
 import com.app.bagsa.bagsaapp.Utils.Env;
 
-import java.sql.ResultSet;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
@@ -31,6 +27,10 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 public class NotificationsActivity extends FragmentActivity {
 
     private TableLayout table_layout;
+    private ImageView filter;
+
+    String[] DayOfWeek = {"Sunday", "Monday", "Tuesday",
+            "Wednesday", "Thursday", "Friday", "Saturday"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class NotificationsActivity extends FragmentActivity {
         getViewElements();
         BuildTable();
         crearNorifications();
+        setElementsEvents();
     }
 
     @Override
@@ -65,17 +66,32 @@ public class NotificationsActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getViewElements(){
+    public void getViewElements() {
         table_layout = (TableLayout) findViewById(R.id.tableLayoutNotif);
+        //filter = (ImageView) findViewById(R.id.ivFilter);
     }
 
-    private void BuildTable(){
+    private void setElementsEvents() {
+        //filter.setOnClickListener(new View.OnClickListener() {
+        final NotificationsActivity finalThis = this;
+//        filter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                String[] cols = {"Descripcion", "Tipo", "fecha"};
+//                new myDialog(finalThis, cols).show();
+//            }
+//        });
+    }
+
+
+    private void BuildTable() {
         DBHelper db = null;
         try {
             db = new DBHelper(getApplicationContext());
             db.openDB(0);
             Cursor rs = db.querySQL("Select * from Notificaciones order by fecha desc", null);
-            if(rs.moveToFirst()) {
+            if (rs.moveToFirst()) {
                 do {
                     int i = 0;
                     TableRow row = new TableRow(this);
@@ -142,12 +158,12 @@ public class NotificationsActivity extends FragmentActivity {
                     row.addView(tv4);
                     i++;
                     table_layout.addView(row);
-                }while (rs.moveToNext());
+                } while (rs.moveToNext());
             }
 
         } catch (Exception e) {
             e.getMessage();
-        }finally {
+        } finally {
             db.close();
         }
     }
@@ -155,7 +171,7 @@ public class NotificationsActivity extends FragmentActivity {
     private void startNotifDescActivity(int notifID) {
         Intent i = new Intent(this, NotifDescActivity.class);
         Bundle b = new Bundle();
-        b.putInt("notifID",notifID);
+        b.putInt("notifID", notifID);
         i.putExtras(b);
         this.finish();
         startActivity(i);
@@ -167,9 +183,39 @@ public class NotificationsActivity extends FragmentActivity {
         Env.setNotificationsCount(0);
     }
 
-    public void crearNorifications(){
-        NotificationManager notifManager= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+    public void crearNorifications() {
+        NotificationManager notifManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         notifManager.cancelAll();
     }
+
+    private String getQuery(String colName, int type) {
+        String qry = "Select * from Notificaciones";
+
+        switch (colName) {
+            case "Descripcion":
+                qry = qry + " order by descripcion";
+                break;
+            case "Tipo":
+                qry = qry + " order by tipo";
+                break;
+            case "Fecha":
+                qry = qry + " order by fecha";
+                break;
+            case "ID":
+                qry = qry + " order by ID";
+                break;
+        }
+        switch (type) {
+            case 1:
+                qry = qry + " asc";
+                break;
+            case 2:
+                qry = qry + " desc";
+                break;
+        }
+        return qry;
+    }
+
+
 }
 
