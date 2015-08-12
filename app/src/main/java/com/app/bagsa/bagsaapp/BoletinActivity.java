@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ public class BoletinActivity extends ActionBarActivity {
 
     private int userID=0;
     TableLayout table_layout;
+    private ImageView filter;
+    private TableRow trHeaders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,8 @@ public class BoletinActivity extends ActionBarActivity {
 
     public void getViewElements(){
         table_layout = (TableLayout) findViewById(R.id.tableLayout1);
+        filter = (ImageView) findViewById(R.id.ivFilterBoletin);
+        trHeaders = (TableRow) findViewById(R.id.tableRowHeadersBoletin);
     }
 
     private void BuildTable() {

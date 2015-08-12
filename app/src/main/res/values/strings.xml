@@ -86,9 +86,10 @@
     <string name="title_activity_notifications">NotificationsActivity</string>
     <string name="title_activity_tab">TabActivity</string>
     <string name="title_activity_custom_tab">customTabActivity</string>
+    <string name="txtFilter">Filtrar</string>
 
     <!-- Custom Tab Activity-->
-    <string name="description">Descripción</string>
+    <string name="description">Descripcion</string>
     <string name="date">Fecha</string>
     <string name="logoBagsa">logoBagsa</string>
     <string name="logoImgVBagsa">imgViewLogoBagsa</string>
@@ -98,5 +99,14 @@
 
     <!-- Notificaciones Activity-->
     <string name="id">ID</string>
+
+    <!-- Filter PopUP-->
+    <string name="txtData">Información</string>
+    <string name="txtColumn">Columna</string>
+    <string name="txtOrderBy">Ordenar</string>
+    <string name="txtAZ">A-Z</string>
+    <string name="txtZA">Z-A</string>
+    <string name="txtOK">Aceptar</string>
+    <string name="txtCancell">Cancelar</string>
 
 </resources>

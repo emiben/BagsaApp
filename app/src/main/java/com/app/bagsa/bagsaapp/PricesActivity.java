@@ -1,20 +1,27 @@
 package com.app.bagsa.bagsaapp;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.bagsa.bagsaapp.R;
 
 public class PricesActivity extends ActionBarActivity {
 
-    TableLayout table_layout;
+    private TableLayout table_layout;
+    private Button      btnExport;
+    private Button      btnEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +30,7 @@ public class PricesActivity extends ActionBarActivity {
 
         getViewElements();
         BuildTable();
+        setActions();
     }
 
     @Override
@@ -49,6 +57,24 @@ public class PricesActivity extends ActionBarActivity {
 
     public void getViewElements(){
         table_layout = (TableLayout) findViewById(R.id.tableLayoutPrices);
+        btnEmail = (Button) findViewById(R.id.btnEmail);
+    }
+
+    public void setActions(){
+        btnEmail.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"emiben1@hotmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Test Android");
+                i.putExtra(Intent.EXTRA_TEXT   , "Test Android Body");
+                try {
+                    startActivity(Intent.createChooser(i, "Send mail..."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(PricesActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void BuildTable(){

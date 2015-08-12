@@ -28,9 +28,8 @@ public class NotificationsActivity extends FragmentActivity {
 
     private TableLayout table_layout;
     private ImageView filter;
+    private TableRow trHeaders;
 
-    String[] DayOfWeek = {"Sunday", "Monday", "Tuesday",
-            "Wednesday", "Thursday", "Friday", "Saturday"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class NotificationsActivity extends FragmentActivity {
         ShortcutBadger.with(getApplicationContext()).count(0);
         Env.setNotificationsCount(0);
         getViewElements();
-        BuildTable();
+        BuildTable("", "Fecha", "Fecha", 2);
         crearNorifications();
         setElementsEvents();
     }
@@ -68,29 +67,45 @@ public class NotificationsActivity extends FragmentActivity {
 
     public void getViewElements() {
         table_layout = (TableLayout) findViewById(R.id.tableLayoutNotif);
-        //filter = (ImageView) findViewById(R.id.ivFilter);
+        filter = (ImageView) findViewById(R.id.ivFilter);
+        trHeaders = (TableRow) findViewById(R.id.tableRowHeaders);
     }
 
     private void setElementsEvents() {
-        //filter.setOnClickListener(new View.OnClickListener() {
         final NotificationsActivity finalThis = this;
-//        filter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                String[] cols = {"Descripcion", "Tipo", "fecha"};
-//                new myDialog(finalThis, cols).show();
-//            }
-//        });
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String[] cols = {"Descripcion", "Tipo", "Fecha", "ID"};
+                new myDialog(finalThis, cols) {
+                    @Override
+                    public void onOKButton(String txt, String col, String colOrder, int orderBy) {
+                        BuildTable(txt, col, colOrder, orderBy);
+                        this.dismiss();
+                    }
+
+                    @Override
+                    public void onCancellButton() {
+                        this.dismiss();
+                    }
+                }.show();
+            }
+        });
     }
 
 
-    private void BuildTable() {
+    private void BuildTable(String txt, String col, String colOrder, int orderBy) {
         DBHelper db = null;
         try {
             db = new DBHelper(getApplicationContext());
             db.openDB(0);
-            Cursor rs = db.querySQL("Select * from Notificaciones order by fecha desc", null);
+            String qry = getQuery(txt, col, colOrder, orderBy);
+            Cursor rs = db.querySQL(qry, null);
+            table_layout.removeAllViews();
+            table_layout.addView(trHeaders);
+
+
             if (rs.moveToFirst()) {
                 do {
                     int i = 0;
@@ -188,23 +203,24 @@ public class NotificationsActivity extends FragmentActivity {
         notifManager.cancelAll();
     }
 
-    private String getQuery(String colName, int type) {
-        String qry = "Select * from Notificaciones";
+    private String getQuery(String txt, String colName, String colNameOrd, int type) { //Obligatorio pasarle las columnas
+        String qry = "SELECT * FROM Notificaciones WHERE "+ colName + " like '%" + txt + "%'";
 
-        switch (colName) {
+        switch (colNameOrd) {
             case "Descripcion":
-                qry = qry + " order by descripcion";
+                qry = qry + " ORDER BY descripcion";
                 break;
             case "Tipo":
-                qry = qry + " order by tipo";
+                qry = qry + " ORDER BY tipo";
                 break;
             case "Fecha":
-                qry = qry + " order by fecha";
+                qry = qry + " ORDER BY fecha";
                 break;
             case "ID":
-                qry = qry + " order by ID";
+                qry = qry + " ORDER BY ID";
                 break;
         }
+
         switch (type) {
             case 1:
                 qry = qry + " asc";
@@ -215,6 +231,7 @@ public class NotificationsActivity extends FragmentActivity {
         }
         return qry;
     }
+
 
 
 }

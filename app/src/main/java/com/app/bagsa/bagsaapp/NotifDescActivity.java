@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -25,6 +27,8 @@ public class NotifDescActivity extends ActionBarActivity {
     private TextView tvDesc;
     private TextView tvInfoDesc;
 
+    private Button btnOK;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class NotifDescActivity extends ActionBarActivity {
         getViewElements();
         getNoticeData();
         loadElementsData();
+        setActions();
     }
 
     @Override
@@ -70,6 +75,15 @@ public class NotifDescActivity extends ActionBarActivity {
         tvDateDesc = (TextView) findViewById(R.id.dateDesc);
         tvDesc = (TextView) findViewById(R.id.desc);
         tvInfoDesc = (TextView) findViewById(R.id.data);
+        btnOK = (Button) findViewById(R.id.btnOK);
+    }
+
+    public void setActions(){
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void loadElementsData(){

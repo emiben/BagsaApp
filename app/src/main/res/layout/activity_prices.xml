@@ -100,7 +100,7 @@
                         android:layout_marginTop="5dip"
                         android:background="@drawable/button_customize"
                         android:textColor="#FFFFFF"
-                        android:id="@+id/button10"
+                        android:id="@+id/btnExport"
                         android:layout_marginBottom="5dip"
                         android:layout_marginRight="5dip" />
 
@@ -111,7 +111,7 @@
                         android:layout_marginTop="5dip"
                         android:background="@drawable/button_customize"
                         android:textColor="#FFFFFF"
-                        android:id="@+id/button11"
+                        android:id="@+id/btnEmail"
                         android:layout_marginBottom="5dip"
                         android:layout_marginLeft="5dip" />
                 </TableRow>

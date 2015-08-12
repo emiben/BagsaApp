@@ -45,81 +45,52 @@
                 android:src="@drawable/separator"
                 android:id="@+id/imageView4" />
 
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dip"
-                android:id="@+id/gridLayout">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:weightSum="100">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/type"
-                    android:textColor="#ff000000"
-                    android:id="@+id/textView"
-                    android:layout_row="0"
-                    android:layout_column="0" />
+            <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/year"
+            android:id="@+id/textView2"
+            android:textColor="#ff000000"
+                android:layout_gravity="center_vertical" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/reports"
-                    android:id="@+id/checkboxReports"
-                    android:layout_marginLeft="5dip"
-                    android:layout_row="0"
-                    android:layout_column="2" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/newsletters"
-                    android:id="@+id/checkboxNewsLet"
-                    android:layout_marginLeft="5dip"
-                    android:layout_row="0"
-                    android:layout_column="3" />
-
-                <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/year"
-                android:id="@+id/textView2"
-                android:textColor="#ff000000"
-                android:layout_marginTop="10dip"
-                android:layout_row="1"
-                android:layout_column="0" />
-
-                <Spinner
-                    android:layout_width="wrap_content"
+            <Spinner
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinnerYear"
-                    android:layout_marginTop="10dip"
-                    android:layout_row="1"
-                    android:layout_column="1" />
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:weightSum="100">
+
+            <TextView
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/month"
                     android:id="@+id/textView3"
                     android:textColor="#ff000000"
-                    android:layout_marginTop="10dip"
-                    android:layout_marginLeft="10dip"
-                    android:layout_row="1"
-                    android:layout_column="2" />
+                android:layout_gravity="center_vertical" />
 
-                <Spinner
-                    android:layout_width="wrap_content"
+            <Spinner
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinnerMonth"
-                    android:layout_marginTop="10dip"
-                    android:layout_row="1"
-                    android:layout_column="3" />
-            </GridLayout>
+                    android:id="@+id/spinnerMonth" />
+        </LinearLayout>
 
-            <Button
+        <Button
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="@string/generate"

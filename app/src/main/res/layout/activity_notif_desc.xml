@@ -34,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/date"
-                android:id="@+id/date" />
+                android:id="@+id/date"
+                android:layout_weight="50" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/dateDesc" />
+                android:id="@+id/dateDesc"
+                android:layout_weight="50" />
         </LinearLayout>
 
         <TextView
@@ -77,8 +79,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button12"
+            android:text="@string/txtOK"
+            android:id="@+id/btnOK"
+            android:background="@drawable/button_customize"
+            android:textColor="#FFFFFF"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>

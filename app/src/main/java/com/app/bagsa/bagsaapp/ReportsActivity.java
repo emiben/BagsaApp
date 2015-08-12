@@ -22,8 +22,6 @@ public class ReportsActivity extends ActionBarActivity {
 
     private Spinner spinYear;
     private Spinner spinMonth;
-    private RadioButton chkReports;
-    private RadioButton chkNewsLet;
     private Button generate;
 
     @Override
@@ -61,24 +59,10 @@ public class ReportsActivity extends ActionBarActivity {
     private void getViewElements() {
         spinYear = (Spinner)findViewById(R.id.spinnerYear);
         spinMonth = (Spinner)findViewById(R.id.spinnerMonth);
-        chkReports = (RadioButton) findViewById(R.id.checkboxReports);
-        chkNewsLet = (RadioButton) findViewById(R.id.checkboxNewsLet);
         generate = (Button) findViewById(R.id.button7);
     }
 
     private void setElementsEvents() {
-        chkReports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chckRepAction(v);
-            }
-        });
-        chkNewsLet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chckNwsLetAction(v);
-            }
-        });
         generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,39 +73,13 @@ public class ReportsActivity extends ActionBarActivity {
     }
 
     public void generateReport(){
-        if(chkNewsLet.isChecked() || chkReports.isChecked()) {
-            Intent i = new Intent(this, BoletinActivity.class);
-            Bundle b = new Bundle();
-            if(chkReports.isChecked()){
-                b.putInt("Type",1);
-            }else{
-                b.putInt("Type",0);
-            }
-            i.putExtras(b);
-            startActivity(i);
-        }else{
-            Context context = getApplicationContext();
-            CharSequence text =  getResources().getString(R.string.chose_type);
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
+        Intent i = new Intent(this, BoletinActivity.class);
+        Bundle b = new Bundle();
+        b.putInt("Type",0);
+        i.putExtras(b);
+        startActivity(i);
     }
 
-    public void chckRepAction(View v){
-        RadioButton radioBtn = (RadioButton)v;
-        if(radioBtn.isChecked()){
-            chkNewsLet.setChecked(false);
-        }
-    }
-
-    public void chckNwsLetAction(View v){
-        RadioButton radioBtn = (RadioButton)v;
-        if(radioBtn.isChecked()){
-            chkReports.setChecked(false);
-        }
-    }
 
     public void loadSpinners(){
         ArrayList<String> years = new ArrayList<String>();
