@@ -108,5 +108,15 @@
     <string name="txtZA">Z-A</string>
     <string name="txtOK">Aceptar</string>
     <string name="txtCancell">Cancelar</string>
+    <string name="title_activity_contract">ContractActivity</string>
+
+    <!-- Contract Activity-->
+    <string name="ContractNo">Nro. de Contrato</string>
+    <string name="TrxDate">Fecha de Trx.</string>
+    <string name="ContractType">Tipo de Contrato</string>
+    <string name="volumeTrans">Vol. Transado</string>
+    <string name="ProdTrans">Producto Transado</string>
+    <string name="totAmt">Monto Total</string>
+    <string name="prima">Prima</string>
 
 </resources>

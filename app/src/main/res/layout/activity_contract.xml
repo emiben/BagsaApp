@@ -1,0 +1,128 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin_custom"
+    android:paddingRight="@dimen/activity_horizontal_margin_custom"
+    android:paddingTop="@dimen/activity_vertical_margin_custom"
+    android:paddingBottom="@dimen/activity_vertical_margin_custom"
+    android:background="#E8F5E9"
+    android:fillViewport="true">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/txtFilter"
+                    android:id="@+id/textView21"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/filter_button_img"
+                    android:id="@+id/ivFilterContract"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="right" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom">
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableLayoutContract"
+                    android:background="@drawable/celda_cuerpo2">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tableRowHeadersContract">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/ContractNo"
+                            android:textColor="#fffff9f3"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:id="@+id/tvCtrctNo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fffff9f3"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/TrxDate"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:id="@+id/tvTrxDate" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fffff9f3"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/ContractType"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:id="@+id/tvType" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fffff9f3"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/volumeTrans"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:id="@+id/tvVolTrans" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fffff9f3"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/totAmt"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:id="@+id/tvTotAmt" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#fffff9f3"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/prima"
+                            android:layout_marginLeft="5dip"
+                            android:layout_marginRight="5dip"
+                            android:id="@+id/tvPrima" />
+
+                    </TableRow>
+                </TableLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

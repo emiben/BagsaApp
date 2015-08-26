@@ -28,6 +28,15 @@ public class Env {
     public static final String URL="http://200.71.26.66:6050/ADInterface-1.0/services/ADService";
 
     /**************************************************************************
+     *  User
+     */
+
+    public static String usr = null;
+    public static String pass = null;
+    public static String adUsr = null;
+
+
+    /**************************************************************************
      *  Application Context
      */
 
@@ -128,6 +137,31 @@ public class Env {
     public static void setIsEnvLoad(Context ctx, boolean value) {
         // TODO Auto-generated method stub
         setContext(ctx, SET_ENV, value);
+    }
+
+
+    public void setUser(String user){
+        this.usr = user;
+    }
+
+    public String getUser(){
+        return this.usr;
+    }
+
+    public void setPass(String password){
+        this.pass = password;
+    }
+
+    public String getPass(){
+        return this.pass;
+    }
+
+    public void setadusr(String adUser){
+        this.adUsr = adUser;
+    }
+
+    public String getAdUsr(){
+        return this.adUsr;
     }
 
 

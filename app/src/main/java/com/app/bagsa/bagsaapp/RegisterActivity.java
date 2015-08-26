@@ -411,41 +411,41 @@ public class RegisterActivity extends ActionBarActivity {
         // TODO Auto-generated method stub
         String[] ColumYVal = new String[24];
         int i=0;
-            ColumYVal[i++] = "Name"; //colum
-            ColumYVal[i++] = in_FullName; //val
+        ColumYVal[i++] = "Name"; //colum
+        ColumYVal[i++] = in_FullName; //val
 
-            ColumYVal[i++] = "Code"; //colum
-            ColumYVal[i++] = in_UserName; //val
+        ColumYVal[i++] = "Code"; //colum
+        ColumYVal[i++] = in_UserName; //val
 
-            ColumYVal[i++] = "C_DocType_ID"; //colum
-            ColumYVal[i++] = "1001051"; //val
+        ColumYVal[i++] = "C_DocType_ID"; //colum
+        ColumYVal[i++] = "1001051"; //val
 
-            ColumYVal[i++] = "EMail"; //colum
-            ColumYVal[i++] = in_Email; //val
+        ColumYVal[i++] = "EMail"; //colum
+        ColumYVal[i++] = in_Email; //val
 
-            ColumYVal[i++] = "Address1"; //colum
-            ColumYVal[i++] = in_Localidad; //val
+        ColumYVal[i++] = "Address1"; //colum
+        ColumYVal[i++] = in_Localidad; //val
 
-            ColumYVal[i++] = "DateTrx"; //colum
-            ColumYVal[i++] = "2015-07-15 00:00:00"; //val
+        ColumYVal[i++] = "DateTrx"; //colum
+        ColumYVal[i++] = "2015-07-15 00:00:00"; //val
 
-            ColumYVal[i++] = "Phone"; //colum
-            ColumYVal[i++] = in_Phone;
+        ColumYVal[i++] = "Phone"; //colum
+        ColumYVal[i++] = in_Phone;
 
-            ColumYVal[i++] = "UserLevel"; //colum
-            ColumYVal[i++] = in_TypoUsuario; //val
+        ColumYVal[i++] = "UserLevel"; //colum
+        ColumYVal[i++] = in_TypoUsuario; //val
 
-            ColumYVal[i++] = "DocStatus"; //colum
-            ColumYVal[i++] = "DR"; //val
+        ColumYVal[i++] = "DocStatus"; //colum
+        ColumYVal[i++] = "DR"; //val
 
-            ColumYVal[i++] = "Password"; //colum
-            ColumYVal[i++] = in_Psw; //val
+        ColumYVal[i++] = "Password"; //colum
+        ColumYVal[i++] = in_Psw; //val
 
-            ColumYVal[i++] = "HaveAttach1"; //colum Envio siempre 0 y en document no  configuro id de ruta
-            ColumYVal[i++] = ((in_Transac)?"Y":"N"); //val
-            //ordenEnvio.getDocumentNo()
-            ColumYVal[i++] = "HaveAttach2"; //colum
-            ColumYVal[i++] = ((in_TransacBgsa)?"Y":"N"); //val //val
+        ColumYVal[i++] = "HaveAttach1"; //colum Envio siempre 0 y en document no  configuro id de ruta
+        ColumYVal[i++] = ((in_Transac)?"Y":"N"); //val
+        //ordenEnvio.getDocumentNo()
+        ColumYVal[i++] = "HaveAttach2"; //colum
+        ColumYVal[i++] = ((in_TransacBgsa)?"Y":"N"); //val //val
 
         return ColumYVal;
     }

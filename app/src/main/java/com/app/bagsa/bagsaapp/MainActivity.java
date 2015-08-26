@@ -101,7 +101,7 @@ public class MainActivity extends ActionBarActivity {
         setElementsEvents();
 
         testDataBase();
-
+        deleteMsg();
         registerGCM();// se hace al momento de cargar la base
 
     }
@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private boolean loginWS(String u, String p) {
-
+        final Env e = new Env();
         pDialog = ProgressDialog.show(this,null, "Consultando..",true);
         new Thread(){
             public void run(){
@@ -170,6 +170,10 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void run() {
                         if (retornoWS) {
+                            if(retornoWS){
+                                e.setUser(userIn);
+                                e.setPass(pswIn);
+                            }
                             startPrincipalActivity(0);
                         } else {
                             Context context = getApplicationContext();
@@ -183,7 +187,6 @@ public class MainActivity extends ActionBarActivity {
                 });
             }
         }.start();
-
         return retornoWS;
     }
 
@@ -594,6 +597,20 @@ public class MainActivity extends ActionBarActivity {
             e.getMessage();
         }
         return ret;
+    }
+
+    public void deleteMsg(){
+        DBHelper db = new DBHelper(this);
+        try{
+            db.openDB(1);
+            db.executeSQL("delete from notificaciones where descripcion like '%mierda%'");
+        }catch (Exception e){
+            System.out.print(e);
+        }finally {
+            db.close();
+        }
+
+
     }
 
 
