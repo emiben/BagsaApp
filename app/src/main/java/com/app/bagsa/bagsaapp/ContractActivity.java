@@ -226,8 +226,8 @@ public class ContractActivity extends ActionBarActivity {
                 break;
         }
 
-        String qry = "SELECT * FROM UY_BG_Contract WHERE (ad_user_id = "+usr+" OR ad_user_id_2 = "+usr+
-                        ") AND "+ colName + " like '%" + txt + "%'";
+        String qry = "SELECT * FROM UY_BG_Contract WHERE uy_bg_autionreq_id is null AND (ad_user_id = "+usr+" OR ad_user_id_2 = "+usr+")"
+                        +" AND "+ colName + " like '%" + txt + "%'";
 
         switch (colNameOrd) {
             case "Nro. de Contrato":
