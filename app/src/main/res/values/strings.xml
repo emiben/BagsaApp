@@ -74,6 +74,8 @@
 
     <!-- Prices activity-->
     <string name="market_price">Precio de Mercado</string>
+    <string name="buyPrice">Precio de Cmpa.</string>
+    <string name="sellPrice">Precio de Vta.</string>
     <string name="tendency">La Tendencia</string>
     <string name="variation">Variación en base al último cierre</string>
     <string name="title_activity_tabla_reports">TablaReportsActivity</string>
@@ -119,5 +121,6 @@
     <string name="totAmt">Monto Total</string>
     <string name="prima">Prima</string>
     <string name="title_activity_compra_venta">CompraVentaActivity</string>
+    <string name="title_activity_consulta_precios">ConsultaPreciosActivity</string>
 
 </resources>

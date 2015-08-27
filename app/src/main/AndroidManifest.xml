@@ -126,6 +126,10 @@
             android:name=".CompraVentaActivity"
             android:label="@string/title_activity_compra_venta" >
         </activity>
+        <activity
+            android:name=".ConsultaPreciosActivity"
+            android:label="@string/title_activity_consulta_precios" >
+        </activity>
     </application>
 
 </manifest>
