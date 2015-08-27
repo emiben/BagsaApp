@@ -118,5 +118,6 @@
     <string name="ProdTrans">Producto Transado</string>
     <string name="totAmt">Monto Total</string>
     <string name="prima">Prima</string>
+    <string name="title_activity_compra_venta">CompraVentaActivity</string>
 
 </resources>

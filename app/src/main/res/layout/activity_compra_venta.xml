@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/filter_button_img"
-                    android:id="@+id/ivFilterContract"
+                    android:id="@+id/ivFilterCmpVta"
                     android:layout_marginRight="20dp"
                     android:layout_gravity="right" />
             </LinearLayout>
@@ -51,13 +51,13 @@
                 <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tableLayoutContract"
+                    android:id="@+id/tableLayoutCmpVta"
                     android:background="@drawable/celda_cuerpo2">
 
                     <TableRow
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tableRowHeadersContract">
+                        android:id="@+id/tableRowHeadersCmpVta">
 
                         <TextView
                             android:layout_width="wrap_content"

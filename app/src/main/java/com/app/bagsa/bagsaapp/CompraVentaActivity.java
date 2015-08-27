@@ -17,7 +17,7 @@ import com.app.bagsa.bagsaapp.Utils.DBHelper;
 import com.app.bagsa.bagsaapp.Utils.Env;
 
 
-public class ContractActivity extends ActionBarActivity {
+public class CompraVentaActivity extends ActionBarActivity {
 
     private TableLayout table_layout;
     private ImageView filter;
@@ -26,17 +26,17 @@ public class ContractActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contract);
+        setContentView(R.layout.activity_compra_venta);
 
         getViewElements();
         setElementsEvents();
-        BuildTable("","c.datetrx","c.datetrx",2);
+        BuildTable("", "c.datetrx", "c.datetrx", 2);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_contract, menu);
+        getMenuInflater().inflate(R.menu.menu_compra_venta, menu);
         return true;
     }
 
@@ -56,19 +56,19 @@ public class ContractActivity extends ActionBarActivity {
     }
 
     public void getViewElements() {
-        table_layout = (TableLayout) findViewById(R.id.tableLayoutContract);
-        filter = (ImageView) findViewById(R.id.ivFilterContract);
-        trHeaders = (TableRow) findViewById(R.id.tableRowHeadersContract);
+        table_layout = (TableLayout) findViewById(R.id.tableLayoutCmpVta);
+        filter = (ImageView) findViewById(R.id.ivFilterCmpVta);
+        trHeaders = (TableRow) findViewById(R.id.tableRowHeadersCmpVta);
     }
 
     private void setElementsEvents() {
-        final ContractActivity finalThis = this;
+        final CompraVentaActivity finalThis = this;
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String[] cols = {"Nro. de Contrato", "Fecha de Trx.", "Tipo de Contrato", "Vol. Transado",
-                                    "Producto Transado", "Monto Total", "Prima"};
+                        "Producto Transado", "Monto Total", "Prima"};
                 new myDialog(finalThis, cols) {
                     @Override
                     public void onOKButton(String txt, String col, String colOrder, int orderBy) {
@@ -239,10 +239,10 @@ public class ContractActivity extends ActionBarActivity {
         }
 
         String qry = "SELECT c.uy_bg_contract_id, c.datetrx, c.c_doctype_id, c.volume, p.name," +
-                        " c.amt, c.amtretention" +
-                        " FROM UY_BG_Contract c JOIN m_product p ON c.m_product_id = p.m_product_id" +
-                        " WHERE uy_bg_autionreq_id is not null AND (c.ad_user_id = "+usr+" OR c.ad_user_id_2 = "+usr+")" +
-                        " AND "+ colName + " like '%" + txt + "%'";
+                " c.amt, c.amtretention" +
+                " FROM UY_BG_Contract c JOIN m_product p ON c.m_product_id = p.m_product_id" +
+                " WHERE uy_bg_autionreq_id is null AND (c.ad_user_id = "+usr+" OR c.ad_user_id_2 = "+usr+")" +
+                " AND "+ colName + " like '%" + txt + "%'";
 
         switch (colNameOrd) {
             case "Nro. de Contrato":
@@ -302,6 +302,5 @@ public class ContractActivity extends ActionBarActivity {
         }
         return qry;
     }
-
 
 }
