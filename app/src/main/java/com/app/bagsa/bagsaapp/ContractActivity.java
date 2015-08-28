@@ -23,6 +23,8 @@ public class ContractActivity extends ActionBarActivity {
     private ImageView filter;
     private TableRow trHeaders;
 
+    //testt
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,7 +189,7 @@ public class ContractActivity extends ActionBarActivity {
                     row.addView(tv);
                     tv2.setText(rs.getString(rs.getColumnIndex("c.datetrx")));
                     row.addView(tv2);
-                    tv3.setText(rs.getString(rs.getColumnIndex("d.name")));
+                    tv3.setText(rs.getString(rs.getColumnIndex("contract")));
                     row.addView(tv3);
                     tv4.setText(Integer.toString(rs.getInt(rs.getColumnIndex("c.volume"))));
                     row.addView(tv4);
@@ -238,11 +240,11 @@ public class ContractActivity extends ActionBarActivity {
                 break;
         }
 
-        String qry = "SELECT c.uy_bg_contract_id, c.datetrx, d.name, c.volume, p.name," +
+        String qry = "SELECT c.uy_bg_contract_id, c.datetrx, d.name as contract, c.volume, p.name," +
                         " c.amt, c.amtretention" +
-                        " FROM UY_BG_Contract c JOIN m_product p ON c.m_product_id = p.m_product_id" +
-                        " LEFT JOIN VUY_Bagsa_doctype d ON c.m_product_id = d.c_doctype_id" +
-                        " WHERE uy_bg_autionreq_id is not null AND (c.ad_user_id = "+usr+" OR c.ad_user_id_2 = "+usr+")" +
+                        " FROM UY_BG_Contract c LEFT JOIN m_product p ON c.m_product_id = p.m_product_id" +
+                        " LEFT JOIN VUY_Bagsa_doctype d ON c.c_doctype_id = d.c_doctype_id" +
+                        " WHERE c.uy_bg_autionreq_id is not null AND (c.ad_user_id = "+usr+" OR c.ad_user_id_2 = "+usr+")" +
                         " AND "+ colName + " like '%" + txt + "%'";
 
         switch (colNameOrd) {

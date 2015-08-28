@@ -113,7 +113,7 @@ public class PrincipalActivity extends ActionBarActivity {
         consPrices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startQrysPricesActivity();
+                startConsultaPreciosActivity();
             }
         });
 
@@ -154,6 +154,11 @@ public class PrincipalActivity extends ActionBarActivity {
 
     private void startQrysPricesActivity() {
         Intent i = new Intent(this, QryPricesActivity.class);
+        startActivity(i);
+    }
+
+    private void startConsultaPreciosActivity() {
+        Intent i = new Intent(this, ConsultaPreciosActivity.class);
         startActivity(i);
     }
 
