@@ -130,6 +130,10 @@
             android:name=".ConsultaPreciosActivity"
             android:label="@string/title_activity_consulta_precios" >
         </activity>
+        <activity
+            android:name=".OfertasActivity"
+            android:label="@string/title_activity_ofertas" >
+        </activity>
     </application>
 
 </manifest>

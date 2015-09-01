@@ -54,6 +54,7 @@
     <string name="auctionsAndBids">Status de Subastas y Pujas</string>
     <string name="buyAndSell">Compra/Venta</string>
     <string name="title_activity_qry_prices">Consulta de Precios</string>
+    <string name="offers">Ofertas</string>
 
     <!-- QryPrices Prices-->
     <string name="market">Mercado</string>
@@ -122,5 +123,6 @@
     <string name="prima">Prima</string>
     <string name="title_activity_compra_venta">CompraVentaActivity</string>
     <string name="title_activity_consulta_precios">ConsultaPreciosActivity</string>
+    <string name="title_activity_ofertas">OfertasActivity</string>
 
 </resources>

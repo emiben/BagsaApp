@@ -185,7 +185,7 @@ public class ContractActivity extends ActionBarActivity {
                     tv7.setGravity(Gravity.CENTER);
 
                     tv.setTypeface(null, Typeface.BOLD);
-                    tv.setText(rs.getString(rs.getColumnIndex("c.uy_bg_contract_id")));
+                    tv.setText(rs.getString(rs.getColumnIndex("c.documentno")));
                     row.addView(tv);
                     tv2.setText(rs.getString(rs.getColumnIndex("c.datetrx")));
                     row.addView(tv2);
@@ -218,7 +218,7 @@ public class ContractActivity extends ActionBarActivity {
 
         switch (colName) {
             case "Nro. de Contrato":
-                colName = "c.uy_bg_contract_id";
+                colName = "c.documentno";
                 break;
             case "Fecha de Trx.":
                 colName = "c.datetrx";
@@ -240,7 +240,7 @@ public class ContractActivity extends ActionBarActivity {
                 break;
         }
 
-        String qry = "SELECT c.uy_bg_contract_id, c.datetrx, d.name as contract, c.volume, p.name," +
+        String qry = "SELECT c.documentno, c.datetrx, d.name as contract, c.volume, p.name," +
                         " c.amt, c.amtretention" +
                         " FROM UY_BG_Contract c LEFT JOIN m_product p ON c.m_product_id = p.m_product_id" +
                         " LEFT JOIN VUY_Bagsa_doctype d ON c.c_doctype_id = d.c_doctype_id" +
@@ -249,7 +249,7 @@ public class ContractActivity extends ActionBarActivity {
 
         switch (colNameOrd) {
             case "Nro. de Contrato":
-                colNameOrd = "c.uy_bg_contract_id";
+                colNameOrd = "c.documentno";
                 break;
             case "Fecha de Trx.":
                 colNameOrd = "c.datetrx";
@@ -272,8 +272,8 @@ public class ContractActivity extends ActionBarActivity {
         }
 
         switch (colNameOrd) {
-            case "c.uy_bg_contract_id":
-                qry = qry + " ORDER BY c.uy_bg_contract_id";
+            case "c.documentno":
+                qry = qry + " ORDER BY c.documentno";
                 break;
             case "c.datetrx":
                 qry = qry + " ORDER BY c.datetrx";
