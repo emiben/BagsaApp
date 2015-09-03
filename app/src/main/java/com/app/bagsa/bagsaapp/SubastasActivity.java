@@ -1,5 +1,6 @@
 package com.app.bagsa.bagsaapp;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
@@ -16,9 +17,18 @@ import android.widget.TextView;
 import com.app.bagsa.bagsaapp.Utils.DBHelper;
 import com.app.bagsa.bagsaapp.Utils.Env;
 
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.PropertyInfo;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
 
-public class OfertasActivity extends ActionBarActivity {
 
+public class SubastasActivity extends ActionBarActivity {
+
+    private String mensajeWS = "";
+    private ProgressDialog pDialog;
+    private Boolean retornoWS = false;
     private TableLayout table_layout;
     private ImageView filter;
     private TableRow trHeaders;
@@ -26,17 +36,17 @@ public class OfertasActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ofertas);
+        setContentView(R.layout.activity_subastas);
 
         getViewElements();
         setElementsEvents();
-        BuildTable("","Fecha de Trx.","Fecha de Trx.",2);
+        BuildTable("", "DocNo", "DocNo",2);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ofertas, menu);
+        getMenuInflater().inflate(R.menu.menu_subastas, menu);
         return true;
     }
 
@@ -56,19 +66,19 @@ public class OfertasActivity extends ActionBarActivity {
     }
 
     public void getViewElements() {
-        table_layout = (TableLayout) findViewById(R.id.tableLayoutOffer);
-        filter = (ImageView) findViewById(R.id.ivFilterOffer);
-        trHeaders = (TableRow) findViewById(R.id.tableRowHeadersOffer);
+        table_layout = (TableLayout) findViewById(R.id.tableLayoutSubasta);
+        filter = (ImageView) findViewById(R.id.ivFilterSubasta);
+        trHeaders = (TableRow) findViewById(R.id.tableRowHeadersSubasta);
     }
 
     private void setElementsEvents() {
-        final OfertasActivity finalThis = this;
+        final SubastasActivity finalThis = this;
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String[] cols = {"Fecha de Trx.", "Instrumento", "Producto", "Volumen",
-                        "Precio", "Tipo", "Transado"};
+                String[] cols = {"DocNo", "Producto", "Volumen", "Precio",
+                        "Tipo", "DocStatus", "Mejor Oferta", "Hora"};
                 new myDialog(finalThis, cols) {
                     @Override
                     public void onOKButton(String txt, String col, String colOrder, int orderBy) {
@@ -95,7 +105,7 @@ public class OfertasActivity extends ActionBarActivity {
             //int tama = rs.getCount();
             table_layout.removeAllViews();
             table_layout.addView(trHeaders);
-
+            int cant=rs.getCount();
 
             if (rs.moveToFirst()) {
                 do {
@@ -191,23 +201,23 @@ public class OfertasActivity extends ActionBarActivity {
                         tv8.setBackgroundResource(R.drawable.celda_cuerpo3);
                     tv8.setPadding(5, 5, 5, 5);
                     tv8.setGravity(Gravity.CENTER);
-
+                    String aux = rs.getColumnName(0);
                     tv.setTypeface(null, Typeface.BOLD);
-                    tv.setText(rs.getString(rs.getColumnIndex("o.updated")));
+                    tv.setText(rs.getString(0));
                     row.addView(tv);
-                    tv2.setText(rs.getString(rs.getColumnIndex("i.code")));
+                    tv2.setText(rs.getString(1));
                     row.addView(tv2);
-                    tv3.setText(rs.getString(rs.getColumnIndex("p.name")));
+                    tv3.setText(rs.getString(2));
                     row.addView(tv3);
-                    tv4.setText(Float.toString(rs.getFloat(rs.getColumnIndex("o.volume"))));
+                    tv4.setText(Float.toString(rs.getFloat(3)));
                     row.addView(tv4);
-                    tv7.setText(Float.toString(rs.getFloat(rs.getColumnIndex("o.priceentered"))));
+                    tv7.setText(rs.getString(4));
                     row.addView(tv7);
-                    tv8.setText(rs.getString(rs.getColumnIndex("o.buySell")));
+                    tv8.setText(rs.getString(5));
                     row.addView(tv8);
-                    tv5.setText(rs.getString(rs.getColumnIndex("o.type")));
+                    tv5.setText(rs.getString(6));
                     row.addView(tv5);
-                    tv6.setText(rs.getString(rs.getColumnIndex("o.isMatched")));
+                    tv6.setText(rs.getString(7));
                     row.addView(tv6);
                     i++;
                     table_layout.addView(row);
@@ -227,91 +237,104 @@ public class OfertasActivity extends ActionBarActivity {
         int usr = Integer.parseInt(e.getAdUsr());
 
         switch (colName) {
-            case "Fecha de Trx.":
-                colName = "o.updated";
-                break;
-            case "Instrumento":
-                colName = "i.code";
+            case "DocNo":
+                colName = "r.documentno";
                 break;
             case "Producto":
                 colName = "p.name";
                 break;
             case "Volumen":
-                colName = "o.volume";
+                colName = "r.qty";
                 break;
             case "Precio":
-                colName = "o.priceentered";
+                colName = "r.price";
                 break;
             case "Tipo":
-                colName = "o.type";
+                colName = "r.buysell";
                 break;
-            case "Transado":
-                colName = "o.isMatched";
+            case "DocStatus":
+                colName = "r.docstatus";
                 break;
-            case "Oferta":
-                colName = "o.buySell";
+            case "Mejor Oferta":
+                colName = "oferta";
+                break;
+            case "Hora":
+                colName = "fechaOfer";
                 break;
         }
 
-        String qry = "SELECT o.updated, i.code, p.name, o.volume, o.priceentered," +
-                        " o.buySell, o.type, o.isMatched" +
-                        " FROM UY_BG_Offer o" +
-                        " LEFT JOIN m_product p ON o.m_product_id = p.m_product_id" +
-                        " LEFT JOIN VUY_Bagsa_Instrument i ON o.uy_bg_instrument_id = i.uy_bg_instrument_id" +
-                        " WHERE o.ad_user_id = " + usr +
-                        " AND "+ colName + " like '%" + txt + "%'";
+        String qry = "SELECT r.documentno, p.name, r.qty," +
+                " r.price, r.buysell, r.docstatus, max(b.price) as oferta, max(b.created) as fechaOfer" +
+                " FROM VUY_Bagsa_Autionreq r" +
+                " LEFT JOIN VUY_Bagsa_Autionbid b" +
+                " ON r.uy_bg_autionreq_id = b.uy_bg_autionreq_id" +
+                " LEFT JOIN m_product p ON r.m_product_id = p.m_product_id" +
+                " WHERE "+ colName + " like '%" + txt + "%'" +
+                " AND r.buysell = 'VENTA' " +
+                "group by r.updated, r.documentno, p.name, r.qty, r.price, r.buysell, r.docstatus " +
+                "UNION " +
+                "SELECT r.documentno, p.name, r.qty, " +
+                " r.price, r.buysell, r.docstatus, min(b.price) as oferta, max(b.created) as fechaOfer " +
+                " FROM VUY_Bagsa_Autionreq r " +
+                " LEFT JOIN VUY_Bagsa_Autionbid b " +
+                " ON r.uy_bg_autionreq_id = b.uy_bg_autionreq_id " +
+                " LEFT JOIN m_product p ON r.m_product_id = p.m_product_id" +
+                " WHERE "+ colName + " like '%" + txt + "%'" +
+                " AND r.buysell = 'COMPRA' " +
+                "group by r.updated, r.documentno, p.name, r.qty, r.price, r.buysell, r.docstatus";
+
 
         switch (colNameOrd) {
-            case "Fecha de Trx.":
-                colNameOrd = "o.updated";
-                break;
-            case "Instrumento":
-                colNameOrd = "i.code";
+            case "DocNo":
+                colNameOrd = "r.documentno";
                 break;
             case "Producto":
                 colNameOrd = "p.name";
                 break;
             case "Volumen":
-                colNameOrd = "o.volume";
+                colNameOrd = "r.qty";
                 break;
             case "Precio":
-                colNameOrd = "o.priceentered";
+                colNameOrd = "r.price";
                 break;
             case "Tipo":
-                colNameOrd = "o.type";
+                colNameOrd = "r.buysell";
                 break;
-            case "Transado":
-                colNameOrd = "o.isMatched";
+            case "DocStatus":
+                colNameOrd = "r.docstatus";
                 break;
-            case "Oferta":
-                colNameOrd = "o.buySell";
+            case "Mejor Oferta":
+                colNameOrd = "oferta";
+                break;
+            case "Hora":
+                colNameOrd = "fechaOfer";
                 break;
         }
 
         switch (colNameOrd) {
-            case "o.updated":
-                qry = qry + " ORDER BY o.updated";
-                break;
-            case "i.code":
-                qry = qry + " ORDER BY i.code";
+            case "r.documentno":
+                qry = qry + " ORDER BY r.documentno";
                 break;
             case "p.name":
                 qry = qry + " ORDER BY p.name";
                 break;
-            case "o.volume":
-                qry = qry + " ORDER BY o.volume";
+            case "r.qty":
+                qry = qry + " ORDER BY r.qty";
                 break;
-            case "o.priceentered":
-                qry = qry + " ORDER BY o.priceentered";
+            case "r.price":
+                qry = qry + " ORDER BY r.price";
                 break;
-            case "o.type":
-                qry = qry + " ORDER BY o.type";
+            case "r.buysell":
+                qry = qry + " ORDER BY r.buysell";
                 break;
-            case "o.isMatched":
-                qry = qry + " ORDER BY o.isMatched";
+            case "r.docstatus":
+                qry = qry + " ORDER BY r.docstatus";
                 break;
-            case "o.buySell":
-                qry = qry + " ORDER BY o.buySell";
+            case "oferta":
+                qry = qry + " ORDER BY oferta";
+                break;
+            case "fechaOfer":
+                qry = qry + " ORDER BY fechaOfer";
                 break;
         }
 
@@ -325,4 +348,6 @@ public class OfertasActivity extends ActionBarActivity {
         }
         return qry;
     }
+
+
 }

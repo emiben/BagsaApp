@@ -30,7 +30,7 @@ public class PrincipalActivity extends ActionBarActivity {
     private Button consPrices;
     private Button reports;
     private Button consEBag;
-    private Button transact;
+    private Button subasta;
     private View target;
     private BadgeView badge;
     private Boolean retornoWS = false;
@@ -88,9 +88,9 @@ public class PrincipalActivity extends ActionBarActivity {
         consPrices = (Button) findViewById(R.id.button2);
         reports = (Button) findViewById(R.id.button3);
         consEBag = (Button) findViewById(R.id.button5);
-        transact = (Button) findViewById(R.id.button6);
+        subasta = (Button) findViewById(R.id.button6);
         if(userID>0){
-            transact.setVisibility(View.GONE);
+            subasta.setVisibility(View.GONE);
             consEBag.setVisibility(View.GONE);
         }
         target = findViewById(R.id.button);
@@ -123,8 +123,12 @@ public class PrincipalActivity extends ActionBarActivity {
                 startNotificationsActivity();
             }
         });
-
-
+        subasta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSubastasActivity();
+            }
+        });
     }
 
     private void setQuantityOfNotif() {
@@ -135,6 +139,11 @@ public class PrincipalActivity extends ActionBarActivity {
         }else{
             badge.hide();
         }
+    }
+
+    private void startSubastasActivity() {
+        Intent i = new Intent(this, SubastasActivity.class);
+        startActivity(i);
     }
 
     private void startNotificationsActivity() {
@@ -221,6 +230,8 @@ public class PrincipalActivity extends ActionBarActivity {
                     retornoWS = requestProducts();
                     retornoWS = getDocTypes();
                     retornoWS = getPrices();
+                    retornoWS = requestSubastaReq();
+                    retornoWS = requestSubastaBid();
                 } catch (Exception e) {
                     e.getMessage();
                 }
@@ -299,16 +310,16 @@ public class PrincipalActivity extends ActionBarActivity {
         ModelCRUDRequest.addSoapObject(ModelCRUD);
 
         SoapObject ADLoginRequest = new SoapObject(NAMESPACE, "ADLoginRequest");
-        String usr = "sbouissa";
+        String usr = "mobileu";
         PropertyInfo usrPI= new PropertyInfo();
         usrPI.setName("user");
-        usrPI.setValue("sbouissa");
+        usrPI.setValue("mobileu");
         usrPI.setNamespace(NAMESPACE);
         usrPI.setType(String.class);
         ADLoginRequest.addProperty(usrPI);
         PropertyInfo pswPI= new PropertyInfo();
         pswPI.setName("pass");
-        pswPI.setValue("sbouissa");
+        pswPI.setValue("mobileu");
         pswPI.setNamespace(NAMESPACE);
         pswPI.setType(String.class);
         ADLoginRequest.addProperty(pswPI);
@@ -445,16 +456,16 @@ public class PrincipalActivity extends ActionBarActivity {
         ModelCRUDRequest.addSoapObject(ModelCRUD);
 
         SoapObject ADLoginRequest = new SoapObject(NAMESPACE, "ADLoginRequest");
-        String usr = "sbouissa";
+        String usr = "mobileu";
         PropertyInfo usrPI = new PropertyInfo();
         usrPI.setName("user");
-        usrPI.setValue("sbouissa");
+        usrPI.setValue("mobileu");
         usrPI.setNamespace(NAMESPACE);
         usrPI.setType(String.class);
         ADLoginRequest.addProperty(usrPI);
         PropertyInfo pswPI = new PropertyInfo();
         pswPI.setName("pass");
-        pswPI.setValue("sbouissa");
+        pswPI.setValue("mobileu");
         pswPI.setNamespace(NAMESPACE);
         pswPI.setType(String.class);
         ADLoginRequest.addProperty(pswPI);
@@ -606,16 +617,16 @@ public class PrincipalActivity extends ActionBarActivity {
         ModelCRUDRequest.addSoapObject(ModelCRUD);
 
         SoapObject ADLoginRequest = new SoapObject(NAMESPACE, "ADLoginRequest");
-        String usr = "sbouissa";
+        String usr = "mobileu";
         PropertyInfo usrPI = new PropertyInfo();
         usrPI.setName("user");
-        usrPI.setValue("sbouissa");
+        usrPI.setValue("mobileu");
         usrPI.setNamespace(NAMESPACE);
         usrPI.setType(String.class);
         ADLoginRequest.addProperty(usrPI);
         PropertyInfo pswPI = new PropertyInfo();
         pswPI.setName("pass");
-        pswPI.setValue("sbouissa");
+        pswPI.setValue("mobileu");
         pswPI.setNamespace(NAMESPACE);
         pswPI.setType(String.class);
         ADLoginRequest.addProperty(pswPI);
@@ -767,16 +778,16 @@ public class PrincipalActivity extends ActionBarActivity {
         ModelCRUDRequest.addSoapObject(ModelCRUD);
 
         SoapObject ADLoginRequest = new SoapObject(NAMESPACE, "ADLoginRequest");
-        String usr = "sbouissa";
+        String usr = "mobileu";
         PropertyInfo usrPI = new PropertyInfo();
         usrPI.setName("user");
-        usrPI.setValue("sbouissa");
+        usrPI.setValue("mobileu");
         usrPI.setNamespace(NAMESPACE);
         usrPI.setType(String.class);
         ADLoginRequest.addProperty(usrPI);
         PropertyInfo pswPI = new PropertyInfo();
         pswPI.setName("pass");
-        pswPI.setValue("sbouissa");
+        pswPI.setValue("mobileu");
         pswPI.setNamespace(NAMESPACE);
         pswPI.setType(String.class);
         ADLoginRequest.addProperty(pswPI);
@@ -866,6 +877,354 @@ public class PrincipalActivity extends ActionBarActivity {
 
                     String qry = "Insert into UY_BG_dailypriceline values (";
                     qry = qry + col1[1] + "," + col2[1] + "," + col3[1] + ",'" + col4[1] + "')";
+
+                    db.executeSQL(qry);
+                }
+            }
+        } catch (Exception e){
+            System.out.print(e);
+        }finally {
+            db.close();
+        }
+    }
+
+//    public void requestContractWS() {
+//        pDialog = ProgressDialog.show(this, null, "Consultando datos...", true);
+//        new Thread() {
+//            public void run() {
+//                try {
+//                    retornoWS = requestSubastaReq();
+//                    retornoWS = requestSubastaBid();
+//
+//                } catch (Exception e) {
+//                    e.getMessage();
+//                }
+//                pDialog.dismiss();
+//            }
+//        }.start();
+//    }
+
+
+    private boolean requestSubastaReq(){
+        boolean reg = false;
+
+
+        final String NAMESPACE = "http://3e.pl/ADInterface";
+        final String URL = "http://200.71.26.66:6050/ADInterface-1.0/services/ModelADService";
+        final String METHOD_NAME = "queryData";
+        final String SOAP_ACTION = "http://3e.pl/ADInterface/ModelADServicePortType/queryDataRequest";
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        SoapObject ModelCRUDRequest = new SoapObject(NAMESPACE, "ModelCRUDRequest");
+        SoapObject ModelCRUD = new SoapObject(NAMESPACE, "ModelCRUD");
+
+        PropertyInfo serviceType = new PropertyInfo();
+        serviceType.setName("serviceType");
+        serviceType.setValue("getAutionReq");
+        serviceType.setNamespace(NAMESPACE);
+        serviceType.setType(String.class);
+        ModelCRUD.addProperty(serviceType);
+        //ModelCRUD.addProperty("serviceType", "RegisterMobileUser");
+        PropertyInfo TableName = new PropertyInfo();
+        TableName.setName("TableName");
+        TableName.setValue("VUY_Bagsa_Autionreq");
+        TableName.setNamespace(NAMESPACE);
+        TableName.setType(String.class);
+        ModelCRUD.addProperty(TableName);
+        // ModelCRUD.addProperty("TableName", "UY_UserReq");
+        PropertyInfo RecordID = new PropertyInfo();
+        RecordID.setName("RecordID");
+        RecordID.setValue("0");
+        RecordID.setNamespace(NAMESPACE);
+        RecordID.setType(String.class);
+        ModelCRUD.addProperty(RecordID);
+        //ModelCRUD.addProperty("RecordID", "1");
+        PropertyInfo Action = new PropertyInfo();
+        Action.setName("Action");
+        Action.setValue("Read");
+        Action.setNamespace(NAMESPACE);
+        Action.setType(String.class);
+        ModelCRUD.addProperty(Action);
+        // ModelCRUD.addProperty("Action", "Create");
+
+        SoapObject DataRow = new SoapObject(NAMESPACE, "DataRow");
+        SoapObject field;
+
+
+        ModelCRUD.addSoapObject(DataRow);
+        ModelCRUDRequest.addSoapObject(ModelCRUD);
+
+        SoapObject ADLoginRequest = new SoapObject(NAMESPACE, "ADLoginRequest");
+        String usr = "mobileu";
+        PropertyInfo usrPI = new PropertyInfo();
+        usrPI.setName("user");
+        usrPI.setValue("mobileu");
+        usrPI.setNamespace(NAMESPACE);
+        usrPI.setType(String.class);
+        ADLoginRequest.addProperty(usrPI);
+        PropertyInfo pswPI = new PropertyInfo();
+        pswPI.setName("pass");
+        pswPI.setValue("mobileu");
+        pswPI.setNamespace(NAMESPACE);
+        pswPI.setType(String.class);
+        ADLoginRequest.addProperty(pswPI);
+        //ADLoginRequest.addProperty("user",  String.valueOf(usr));
+        //ADLoginRequest.addProperty("pass", String.valueOf(usr));
+        PropertyInfo lang = new PropertyInfo();
+        lang.setName("lang");
+        lang.setValue("143");
+        lang.setNamespace(NAMESPACE);
+        lang.setType(String.class);
+        ADLoginRequest.addProperty(lang);
+        //ADLoginRequest.addProperty("lang","143");
+        // ADLoginRequest.addProperty("lang", String.valueOf(Env.getAD_Language(m_Ctx))));
+        PropertyInfo cli = new PropertyInfo();
+        cli.setName("ClientID");
+        cli.setValue("1000006");
+        cli.setNamespace(NAMESPACE);
+        cli.setType(String.class);
+        ADLoginRequest.addProperty(cli);
+        //ADLoginRequest.addProperty("ClientID", "1000006");
+        //  ADLoginRequest.addProperty("RoleID", String.valueOf(Env.getAD_Role_ID(m_Ctx)));
+        PropertyInfo rol = new PropertyInfo();
+        rol.setName("RoleID");
+        rol.setValue("1000022");
+        rol.setNamespace(NAMESPACE);
+        rol.setType(String.class);
+        ADLoginRequest.addProperty(rol);
+        //ADLoginRequest.addProperty("RoleID", "1000022");
+        PropertyInfo org = new PropertyInfo();
+        org.setName("OrgID");
+        org.setValue("1000007");
+        org.setNamespace(NAMESPACE);
+        org.setType(String.class);
+        ADLoginRequest.addProperty(org);
+        // ADLoginRequest.addProperty("OrgID", "1000007");
+        //   ADLoginRequest.addProperty("WarehouseID",String.valueOf(Env.getM_Warehouse_ID(m_Ctx)));
+        PropertyInfo ware = new PropertyInfo();
+        ware.setName("WarehouseID");
+        ware.setValue("1000052");
+        ware.setNamespace(NAMESPACE);
+        ware.setType(String.class);
+        ADLoginRequest.addProperty(ware);
+        //ADLoginRequest.addProperty("WarehouseID","1000052");
+        ModelCRUDRequest.addSoapObject(ADLoginRequest);
+
+        request.addSoapObject(ModelCRUDRequest);
+        SoapSerializationEnvelope envelope =
+                new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = false;
+
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            SoapObject resultado_xml = (SoapObject) envelope.getResponse();
+            insertSubastasReq(resultado_xml);
+            reg = true;
+            transporte.reset();
+        } catch (Exception e) {
+            reg = false;
+            mensajeWS = "Error al consultar los contrtos, por favor intente nuevamente.";
+            e.getMessage();
+            //Log.d(TAG, "Error registro en mi servidor: " + e.getCause() + " || " + e.getMessage());
+        }
+        return reg;
+    }
+
+    private void insertSubastasReq(SoapObject so){
+
+        SoapObject dataResult = (SoapObject)so.getProperty(0);
+
+        int tam = dataResult.getPropertyCount();
+        String delims = "[=;]";
+
+        DBHelper db = new DBHelper(this);
+        db.openDB(1);
+        db.executeSQL("DELETE FROM VUY_Bagsa_Autionreq");
+
+        try{
+            if(tam > 0) {
+                for (int i = 0; i < tam; i++) {
+                    SoapObject dataRow = (SoapObject) dataResult.getProperty(i);
+                    String col1[] = dataRow.getProperty(0).toString().split(delims); //BuySell--
+                    String col2[] = dataRow.getProperty(1).toString().split(delims); //DocStatus--
+                    String col3[] = dataRow.getProperty(2).toString().split(delims); //DocumentNo--
+                    String col4[] = dataRow.getProperty(3).toString().split(delims); //M_Product_ID--
+                    String col5[] = dataRow.getProperty(4).toString().split(delims); //Price--
+                    String col6[] = dataRow.getProperty(5).toString().split(delims); //Qty--
+                    String col7[] = dataRow.getProperty(6).toString().split(delims); //RequestedUser_ID--
+                    String col8[] = dataRow.getProperty(7).toString().split(delims); //Updated--
+                    String col9[] = dataRow.getProperty(8).toString().split(delims); //UY_BG_AutionReq_ID--
+
+
+                    String qry = "Insert into VUY_Bagsa_Autionreq values (";
+                    qry = qry + col9[1] + ",'" + col8[1] + "'," + col3[1] + ","+ col4[1] + ",";
+                    qry = qry + col6[1] + "," + col5[1] + ",'" + col1[1] + "'," + col7[1] + ",'";
+                    qry = qry + col2[1] + "')";
+
+                    db.executeSQL(qry);
+                }
+            }
+        } catch (Exception e){
+            System.out.print(e);
+        }finally {
+            db.close();
+        }
+    }
+
+    private boolean requestSubastaBid(){
+        boolean reg = false;
+
+
+        final String NAMESPACE = "http://3e.pl/ADInterface";
+        final String URL = "http://200.71.26.66:6050/ADInterface-1.0/services/ModelADService";
+        final String METHOD_NAME = "queryData";
+        final String SOAP_ACTION = "http://3e.pl/ADInterface/ModelADServicePortType/queryDataRequest";
+
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+
+        SoapObject ModelCRUDRequest = new SoapObject(NAMESPACE, "ModelCRUDRequest");
+        SoapObject ModelCRUD = new SoapObject(NAMESPACE, "ModelCRUD");
+
+        PropertyInfo serviceType = new PropertyInfo();
+        serviceType.setName("serviceType");
+        serviceType.setValue("getAutionBid");
+        serviceType.setNamespace(NAMESPACE);
+        serviceType.setType(String.class);
+        ModelCRUD.addProperty(serviceType);
+        //ModelCRUD.addProperty("serviceType", "RegisterMobileUser");
+        PropertyInfo TableName = new PropertyInfo();
+        TableName.setName("TableName");
+        TableName.setValue("VUY_Bagsa_Autionbid");
+        TableName.setNamespace(NAMESPACE);
+        TableName.setType(String.class);
+        ModelCRUD.addProperty(TableName);
+        // ModelCRUD.addProperty("TableName", "UY_UserReq");
+        PropertyInfo RecordID = new PropertyInfo();
+        RecordID.setName("RecordID");
+        RecordID.setValue("0");
+        RecordID.setNamespace(NAMESPACE);
+        RecordID.setType(String.class);
+        ModelCRUD.addProperty(RecordID);
+        //ModelCRUD.addProperty("RecordID", "1");
+        PropertyInfo Action = new PropertyInfo();
+        Action.setName("Action");
+        Action.setValue("Read");
+        Action.setNamespace(NAMESPACE);
+        Action.setType(String.class);
+        ModelCRUD.addProperty(Action);
+        // ModelCRUD.addProperty("Action", "Create");
+
+        SoapObject DataRow = new SoapObject(NAMESPACE, "DataRow");
+        SoapObject field;
+
+
+        ModelCRUD.addSoapObject(DataRow);
+        ModelCRUDRequest.addSoapObject(ModelCRUD);
+
+        SoapObject ADLoginRequest = new SoapObject(NAMESPACE, "ADLoginRequest");
+        String usr = "mobileu";
+        PropertyInfo usrPI = new PropertyInfo();
+        usrPI.setName("user");
+        usrPI.setValue("mobileu");
+        usrPI.setNamespace(NAMESPACE);
+        usrPI.setType(String.class);
+        ADLoginRequest.addProperty(usrPI);
+        PropertyInfo pswPI = new PropertyInfo();
+        pswPI.setName("pass");
+        pswPI.setValue("mobileu");
+        pswPI.setNamespace(NAMESPACE);
+        pswPI.setType(String.class);
+        ADLoginRequest.addProperty(pswPI);
+        //ADLoginRequest.addProperty("user",  String.valueOf(usr));
+        //ADLoginRequest.addProperty("pass", String.valueOf(usr));
+        PropertyInfo lang = new PropertyInfo();
+        lang.setName("lang");
+        lang.setValue("143");
+        lang.setNamespace(NAMESPACE);
+        lang.setType(String.class);
+        ADLoginRequest.addProperty(lang);
+        //ADLoginRequest.addProperty("lang","143");
+        // ADLoginRequest.addProperty("lang", String.valueOf(Env.getAD_Language(m_Ctx))));
+        PropertyInfo cli = new PropertyInfo();
+        cli.setName("ClientID");
+        cli.setValue("1000006");
+        cli.setNamespace(NAMESPACE);
+        cli.setType(String.class);
+        ADLoginRequest.addProperty(cli);
+        //ADLoginRequest.addProperty("ClientID", "1000006");
+        //  ADLoginRequest.addProperty("RoleID", String.valueOf(Env.getAD_Role_ID(m_Ctx)));
+        PropertyInfo rol = new PropertyInfo();
+        rol.setName("RoleID");
+        rol.setValue("1000022");
+        rol.setNamespace(NAMESPACE);
+        rol.setType(String.class);
+        ADLoginRequest.addProperty(rol);
+        //ADLoginRequest.addProperty("RoleID", "1000022");
+        PropertyInfo org = new PropertyInfo();
+        org.setName("OrgID");
+        org.setValue("1000007");
+        org.setNamespace(NAMESPACE);
+        org.setType(String.class);
+        ADLoginRequest.addProperty(org);
+        // ADLoginRequest.addProperty("OrgID", "1000007");
+        //   ADLoginRequest.addProperty("WarehouseID",String.valueOf(Env.getM_Warehouse_ID(m_Ctx)));
+        PropertyInfo ware = new PropertyInfo();
+        ware.setName("WarehouseID");
+        ware.setValue("1000052");
+        ware.setNamespace(NAMESPACE);
+        ware.setType(String.class);
+        ADLoginRequest.addProperty(ware);
+        //ADLoginRequest.addProperty("WarehouseID","1000052");
+        ModelCRUDRequest.addSoapObject(ADLoginRequest);
+
+        request.addSoapObject(ModelCRUDRequest);
+        SoapSerializationEnvelope envelope =
+                new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = false;
+
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE transporte = new HttpTransportSE(URL);
+        try {
+            transporte.call(SOAP_ACTION, envelope);
+            SoapObject resultado_xml = (SoapObject) envelope.getResponse();
+            insertSubastasBid(resultado_xml);
+            reg = true;
+            transporte.reset();
+        } catch (Exception e) {
+            reg = false;
+            mensajeWS = "Error al consultar los contrtos, por favor intente nuevamente.";
+            e.getMessage();
+            //Log.d(TAG, "Error registro en mi servidor: " + e.getCause() + " || " + e.getMessage());
+        }
+        return reg;
+    }
+
+    private void insertSubastasBid(SoapObject so){
+
+        SoapObject dataResult = (SoapObject)so.getProperty(0);
+
+        int tam = dataResult.getPropertyCount();
+        String delims = "[=;]";
+
+        DBHelper db = new DBHelper(this);
+        db.openDB(1);
+        db.executeSQL("DELETE FROM VUY_Bagsa_Autionbid");
+
+        try{
+            if(tam > 0) {
+                for (int i = 0; i < tam; i++) {
+                    SoapObject dataRow = (SoapObject) dataResult.getProperty(i);
+                    String col1[] = dataRow.getProperty(0).toString().split(delims); //Created--
+                    String col2[] = dataRow.getProperty(1).toString().split(delims); //Price--
+                    String col3[] = dataRow.getProperty(2).toString().split(delims); //UY_BG_AutionBid_ID--
+                    String col4[] = dataRow.getProperty(3).toString().split(delims); //UY_BG_AutionReq_ID--
+
+
+                    String qry = "Insert into VUY_Bagsa_Autionbid values (";
+                    qry = qry + col3[1] + "," + col4[1] + "," + col2[1] + ",'"+ col1[1] + "')";
 
                     db.executeSQL(qry);
                 }

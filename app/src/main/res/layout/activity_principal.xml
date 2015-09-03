@@ -81,7 +81,7 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/transactions"
+                        android:text="@string/subastas"
                         android:id="@+id/button6"
                         android:background="@drawable/button_customize"
                         android:textColor="#FFFFFF"

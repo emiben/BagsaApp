@@ -134,6 +134,10 @@
             android:name=".OfertasActivity"
             android:label="@string/title_activity_ofertas" >
         </activity>
+        <activity
+            android:name=".SubastasActivity"
+            android:label="@string/title_activity_subastas" >
+        </activity>
     </application>
 
 </manifest>

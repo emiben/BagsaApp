@@ -36,7 +36,7 @@
     <string name="newsletters">Boletines</string>
     <string name="reports">Reportes</string>
     <string name="questions">Consultas eBagsa</string>
-    <string name="transactions">Transacciones</string>
+    <string name="subastas">Subastas</string>
     <string name="title_activity_reports">Boletines</string>
 
     <!-- Reportes y Boletines Activity-->
@@ -124,5 +124,19 @@
     <string name="title_activity_compra_venta">CompraVentaActivity</string>
     <string name="title_activity_consulta_precios">ConsultaPreciosActivity</string>
     <string name="title_activity_ofertas">OfertasActivity</string>
+
+    <!-- Offer Activity-->
+    <string name="Instrument">Instrumento</string>
+    <string name="Price">Precio</string>
+    <string name="TransactStatus">Transado</string>
+    <string name="Offer">Oferta</string>
+    <string name="title_activity_subastas">SubastasActivity</string>
+
+    <!-- Subastas Activity-->
+    <string name="DocNo">DocNo</string>
+    <string name="DocStatus">DocStatus</string>
+    <string name="BestOffer">Mejor Oferta</string>
+    <string name="Time">Hora</string>
+
 
 </resources>
