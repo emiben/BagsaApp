@@ -271,17 +271,17 @@ public class SubastasActivity extends ActionBarActivity {
                 " LEFT JOIN m_product p ON r.m_product_id = p.m_product_id" +
                 " WHERE "+ colName + " like '%" + txt + "%'" +
                 " AND r.buysell = 'VENTA' " +
-                "group by r.updated, r.documentno, p.name, r.qty, r.price, r.buysell, r.docstatus " +
-                "UNION " +
-                "SELECT r.documentno, p.name, r.qty, " +
+                " group by r.updated, r.documentno, p.name, r.qty, r.price, r.buysell, r.docstatus " +
+                " UNION " +
+                " SELECT r.documentno, p.name, r.qty, " +
                 " r.price, r.buysell, r.docstatus, min(b.price) as oferta, max(b.created) as fechaOfer " +
                 " FROM VUY_Bagsa_Autionreq r " +
                 " LEFT JOIN VUY_Bagsa_Autionbid b " +
                 " ON r.uy_bg_autionreq_id = b.uy_bg_autionreq_id " +
                 " LEFT JOIN m_product p ON r.m_product_id = p.m_product_id" +
                 " WHERE "+ colName + " like '%" + txt + "%'" +
-                " AND r.buysell = 'COMPRA' " +
-                "group by r.updated, r.documentno, p.name, r.qty, r.price, r.buysell, r.docstatus";
+                " AND r.buysell = 'COMPRA'" +
+                " group by r.updated, r.documentno, p.name, r.qty, r.price, r.buysell, r.docstatus";
 
 
         switch (colNameOrd) {
