@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,6 +62,7 @@ public class RegisterActivity extends ActionBarActivity {
     private CheckBox getChBTransacBgsa;
     private Boolean in_TransacBgsa = false;
     private String in_TypoUsuario = "";
+    private String devId = "";
 
 
 
@@ -80,6 +82,7 @@ public class RegisterActivity extends ActionBarActivity {
         getViewElements();
         setElementsEvents();
         loadUserType();
+        loadDeviceId();
     }
 
     @Override
@@ -102,6 +105,13 @@ public class RegisterActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadDeviceId(){
+
+        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        devId =  telephonyManager.getDeviceId();
+
     }
 
     private void getViewElements() {
@@ -446,6 +456,9 @@ public class RegisterActivity extends ActionBarActivity {
         //ordenEnvio.getDocumentNo()
         ColumYVal[i++] = "HaveAttach2"; //colum
         ColumYVal[i++] = ((in_TransacBgsa)?"Y":"N"); //val //val
+
+        ColumYVal[i++] = "deviceid"; //colum
+        ColumYVal[i++] = devId; //val //val
 
         return ColumYVal;
     }
