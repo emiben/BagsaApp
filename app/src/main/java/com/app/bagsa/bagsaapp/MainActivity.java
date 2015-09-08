@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
     private static String SOAP_ACTION1 = "http://servidor.ws.bagsaBroadcast.com/regGCMUsers";
     private static String NAMESPACE = "http://servidor.ws.bagsaBroadcast.com";
     private static String METHOD_NAME1 = "regGCMUsers";
-    private static String URL = "http://200.71.26.66:8080/axis2/services/BagsaGCMUsersWS?wsdl";
+    private static String URL = "http://200.71.26.66:8080/axis2/services/getGCMUsersService.aar?wsdl";
 
 
     private static final String PROPERTY_REG_ID = "PID";
@@ -453,14 +453,15 @@ public class MainActivity extends ActionBarActivity {
                     if (!ret) {
                         db.inserting("UY_BG_GCMDevice","(TokenID,DeviceID)","'"+regid+"','"+m_deviceID+"'",getBaseContext());
                        // db.executeSQL("INSERT UY_BG_GCMDevice set TokenID = '" + regid + "', DeviceID = '"+m_deviceID+"'");
-                        registrado = registroServidor(params[0], m_deviceID, regid);
+                        registrado = registroServidor(params[0], regid);
                     }else{
                         boolean ret1 = DBHelper.exists("UY_BG_GCMDevice", "TokenID = '" + regid + "' AND DeviceID = '"+m_deviceID+"' ", getBaseContext());
                         if(!ret1){
                             db.executeSQL("UPDATE UY_BG_GCMDevice set TokenID = '" + regid + "' WHERE DeviceID = '"+m_deviceID+"'");
-                            registrado = registroServidor(params[0], m_deviceID, regid);
+                            registrado = registroServidor(params[0], regid);
                         }
                     }
+                    registrado = registroServidor(params[0], regid); //Siempre registro el dipositivo y token id
                 }
                 db.close();
 
@@ -478,7 +479,7 @@ public class MainActivity extends ActionBarActivity {
             return msg;
         }
 
-        private boolean registroServidor(String usuario, String deviID, String regId)
+        private boolean registroServidor(String usuario, String regId)
         {
             boolean reg = false;
 
@@ -559,7 +560,7 @@ public class MainActivity extends ActionBarActivity {
         request.addSoapObject(adLoginRequest);
         SoapSerializationEnvelope envelope =
                 new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.dotNet = true;
+        envelope.dotNet = false;
 
         envelope.setOutputSoapObject(request);
         HttpTransportSE transporte = new HttpTransportSE(URL);
