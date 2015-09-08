@@ -419,7 +419,7 @@ public class RegisterActivity extends ActionBarActivity {
 
     private String[] obtenerDatos() {
         // TODO Auto-generated method stub
-        String[] ColumYVal = new String[24];
+        String[] ColumYVal = new String[26];
         int i=0;
         ColumYVal[i++] = "Name"; //colum
         ColumYVal[i++] = in_FullName; //val
